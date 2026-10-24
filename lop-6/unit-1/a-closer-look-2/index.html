@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 – A Closer Look 2 · Tiếng Anh 6</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#1d2433;--mute:#667085;--pri:#1f6feb;--pri2:#e8f0fe;--ok:#12805c;--okbg:#e6f6ef;--bad:#c4321a;--badbg:#fdecea;--line:#dfe5ee;
+ --phong:#1f6feb;--vy:#c2185b;--duy:#e07b00}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:#123a7a;color:#fff;padding:14px 16px}
+header .t1{font-size:13px;opacity:.85;letter-spacing:.03em}
+header .t2{font-size:21px;font-weight:700}
+.steps{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.steps button{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;font:inherit;font-size:14px;color:var(--mute);cursor:pointer}
+.steps button.on{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}
+.steps button.done{border-color:var(--ok);color:var(--ok)}
+.steps button.done::before{content:"✓ "}
+.steps button:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.08);margin-bottom:14px}
+h2{margin:0 0 4px;font-size:20px}
+.task{color:var(--mute);font-size:15px;margin:0 0 14px}
+.btn{border:0;background:var(--pri);color:#fff;border-radius:10px;padding:11px 18px;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:var(--pri2);color:var(--pri)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.next{display:flex;justify-content:flex-end;margin-top:6px}
+.knock{font-style:italic;color:var(--mute);margin:6px 0 10px}
+.line{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer}
+.line:hover{background:#f6f8fc}
+.line.playing{background:#fff6d6}
+.who{flex:0 0 58px;font-weight:700}
+.who.Phong{color:var(--phong)}.who.Vy{color:var(--vy)}.who.Duy{color:var(--duy)}
+.say{flex:1}
+.w{border-bottom:2px dotted var(--pri);color:var(--pri);cursor:help}
+.tip{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1d2433;color:#fff;padding:10px 16px;border-radius:12px;font-size:16px;opacity:0;pointer-events:none;transition:.2s;max-width:90vw;z-index:9}
+.tip.show{opacity:1}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.vc{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;cursor:pointer;background:#fff}
+.vc:hover{border-color:var(--pri)}
+.vc .play{flex:0 0 38px;height:38px;border-radius:50%;background:var(--pri2);display:grid;place-items:center;font-size:16px}
+.vc b{display:block;font-size:18px}
+.vc .ipa{color:var(--mute);font-size:14px}
+.vc .vn{font-size:15px}
+.note{background:#f6f8fc;border-left:4px solid var(--pri);border-radius:8px;padding:10px 14px;margin-top:14px;font-size:15.5px}
+.note p{margin:4px 0}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.q .qt{margin-bottom:8px}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{border:2px solid var(--line);background:#fff;border-radius:10px;padding:8px 16px;font:inherit;cursor:pointer;min-width:58px}
+.opt.sel{border-color:var(--pri);background:var(--pri2)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.fb{margin-top:8px;font-size:15px;border-radius:8px;padding:8px 10px;display:none}
+.fb.ok{display:block;background:var(--okbg);color:var(--ok)}
+.fb.no{display:block;background:var(--badbg);color:var(--bad)}
+.fb q{font-style:italic;quotes:"“" "”"}
+.score{font-size:18px;font-weight:700;margin:6px 0 12px}
+.roles{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.mic{background:var(--bad)}
+.heard{font-size:15px;color:var(--mute);margin-top:4px}
+.big{font-size:44px;font-weight:800;color:var(--pri);margin:4px 0}
+.sum div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0}
+.hide{display:none}
+@media (max-width:480px){body{font-size:16px}.who{flex-basis:50px}}
+.box{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--pri);border-radius:12px;margin-bottom:14px;position:sticky;top:58px;background:#fff;z-index:3}
+.chip{border:0;background:var(--pri2);color:var(--pri);font:inherit;font-weight:700;padding:8px 16px;border-radius:999px;cursor:pointer}
+.chip.used{opacity:.3;cursor:default}
+.gap{display:inline-block;min-width:96px;border:0;border-bottom:2px solid var(--mute);background:#f6f8fc;font:inherit;font-weight:700;color:var(--pri);padding:2px 8px;margin:0 3px;border-radius:6px 6px 0 0;cursor:pointer;text-align:center}
+.gap.on{outline:3px solid #ffd75e;background:#fff8dc}
+.gap.right{color:var(--ok);border-color:var(--ok);background:var(--okbg)}
+.gap.wrong{color:var(--bad);border-color:var(--bad);background:var(--badbg)}
+.fill .q .qt{line-height:2.1}
+.sub{display:block;margin-top:2px}
+.giang{background:linear-gradient(135deg,#fff7e0,#fff);border:1px solid #f3d37a;border-radius:14px;padding:12px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+.giang .gh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.giang .gt{font-weight:700;color:#8a5a00}
+.giang .btn{padding:8px 14px}
+.giang .gx{font-size:15.5px;line-height:1.6;color:#3b3220;display:none}
+.giang.mo .gx{display:block}
+.giang .gx i{color:var(--pri);font-weight:600}
+.giai{display:inline-flex;align-items:center;gap:4px;border:0;border-radius:8px;padding:4px 10px;margin:4px 6px 0 0;background:#fff3cd;color:#8a5a00;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:560px){.mgrid{grid-template-columns:repeat(2,1fr)}}
+.mc{border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;align-items:center;background:#fff}
+.mc .im{position:relative;width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#f2f4f8}
+.mc img{width:100%;height:100%;object-fit:contain}
+.mc .so{position:absolute;left:6px;top:6px;background:var(--pri);color:#fff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-weight:700;font-size:14px}
+.mc .gap{width:100%;min-width:0;margin:0}
+.mc .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.mc .acts button{border:0;border-radius:8px;padding:5px 9px;background:var(--pri2);color:var(--pri);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.mc .kq{font-size:13px;min-height:0;text-align:center}
+.mc .kq.ok{color:var(--ok)}.mc .kq.no{color:var(--bad)}
+.ktin{display:flex;gap:8px}
+.ktin input{flex:1;min-width:0;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:10px}
+.ktin input:focus{outline:none;border-color:var(--pri)}
+.klist{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.kitem{display:flex;align-items:center;gap:6px;background:var(--okbg);color:var(--ok);border-radius:999px;padding:6px 8px 6px 12px;font-weight:600}
+.kitem i{font-style:normal;font-weight:400;color:#2d5a47;font-size:14px}
+.kitem button{border:0;background:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer}
+.kmsg{margin-top:8px;font-size:15px;border-radius:8px;padding:8px 10px;display:none}
+.kmsg.no{display:block;background:var(--badbg);color:var(--bad)}
+.kmsg.ok{display:block;background:var(--okbg);color:var(--ok)}
+.kmsg button{border:0;background:#fff;color:var(--pri);font:inherit;font-weight:700;border-radius:8px;padding:2px 8px;margin:0 2px;cursor:pointer}
+.lplay{flex:0 0 32px;height:32px;border:0;border-radius:50%;background:var(--pri2);cursor:pointer;font-size:14px}
+.line{cursor:default}
+
+/* Điện thoại: tên nhân vật một dòng, lời thoại chạy ngang hết khung (Sếp dặn 20/10/2026) */
+@media (max-width:600px){.line{flex-wrap:wrap;row-gap:2px}.line .who{flex:1 1 auto;min-width:0;align-self:center}.line .say{flex:1 1 100%;min-width:0}}
+</style>
+<link rel="stylesheet" href="../../../chung/bam-tu.css?v=202610240914">
+</head>
+<body>
+<style>
+/* riêng bài A Closer Look 2 */
+.sub-card{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px;background:#fff}
+.sub-card h3{margin:0 0 6px;font-size:18px}
+.step{display:inline-block;background:#123a7a;color:#fff;border-radius:999px;padding:1px 10px;font-size:13px;margin-right:6px}
+.ul{margin:6px 0;padding-left:20px}.ul li{margin:4px 0}
+.ex{display:flex;align-items:center;gap:6px;margin:4px 0;flex-wrap:wrap}
+.ex .say{border:0;background:var(--pri2);border-radius:50%;width:30px;height:30px;cursor:pointer;flex:none}
+.ex i{color:#123a7a;font-weight:600;font-style:normal}
+.tbl{width:100%;border-collapse:collapse;font-size:15px;margin:8px 0}
+.tbl th,.tbl td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.tbl th{background:#123a7a;color:#fff;font-weight:600}
+.tbl td:first-child{font-weight:700;background:#f6f8fc;white-space:nowrap}
+.hl-s{color:#c4321a;font-weight:800}
+.hl-d{color:#1f6feb;font-weight:800}
+.wrap-tbl{overflow-x:auto}
+.mini{border:0;border-radius:8px;padding:5px 9px;background:var(--pri2);color:var(--pri);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.rules{grid-template-columns:1fr}}
+.rule{border-radius:12px;padding:10px 12px;background:#f6f8fc}
+.rule h4{margin:0 0 4px}
+.rule .pr{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.vp{border:1px solid var(--line);background:#fff;border-radius:8px;padding:4px 8px;font:inherit;font-size:15px;cursor:pointer}
+.vp b{color:#c4321a}
+.r1{background:#eef6ff}.r2{background:#fff3e6}.r3{background:#f3ecff}.r4{background:#fdecea}
+.memo{background:#fff8dc;border:1px dashed #e0b400;border-radius:10px;padding:8px 12px;margin-top:8px;font-size:15px}
+.drill{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:7px 0}
+.drill .n{font-weight:700;width:22px}
+.drill input{width:130px;font:inherit;padding:6px 8px;border:2px solid var(--line);border-radius:8px}
+.drill input.right{border-color:var(--ok);background:var(--okbg)}.drill input.wrong{border-color:var(--bad);background:var(--badbg)}
+.drill .fbx{font-size:14px;flex-basis:100%}.fbx.ok{color:var(--ok)}.fbx.no{color:var(--bad)}
+.dlg .ln{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);line-height:2.2}
+.dlg .who{flex:0 0 96px;font-weight:700}
+@media (max-width:560px){.dlg .who{flex-basis:64px;font-size:14px;line-height:1.4;padding-top:8px}}
+.dlg .who.N{color:#7a3db8}.dlg .who.D{color:var(--duy)}
+.dlg input{width:96px;font:inherit;font-weight:700;color:var(--pri);padding:2px 6px;border:0;border-bottom:2px solid var(--mute);background:#f6f8fc;border-radius:6px 6px 0 0;text-align:center}
+.dlg input.right{color:var(--ok);border-color:var(--ok);background:var(--okbg)}.dlg input.wrong{color:var(--bad);border-color:var(--bad);background:var(--badbg)}
+.dlg .hint{color:var(--mute);font-size:14px}
+.scale{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.sc{display:grid;grid-template-columns:96px 1fr 120px;align-items:center;gap:8px;cursor:pointer}
+.sc b{font-size:17px}.sc .bar{height:16px;border-radius:8px;background:linear-gradient(90deg,#1f6feb,#7dbbff)}
+.sc span{font-size:14px;color:var(--mute)}
+@media (max-width:560px){.sc{grid-template-columns:84px 1fr 96px}}
+.pyr{display:flex;flex-direction:column;align-items:center;gap:6px;margin:10px 0}
+.pyr .lv{display:flex;align-items:center;justify-content:center;gap:8px;color:#fff;font-weight:700;border-radius:8px;padding:6px;background:#3d7ff0}
+.pyr .gap{min-width:110px;background:#fff}
+.mcq .opts{flex-direction:column;align-items:stretch}
+.mcq .opt{text-align:left}
+.bld .ans{min-height:44px;border:2px dashed var(--line);border-radius:10px;padding:6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.bld .pool{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.bld .chip.used{opacity:.25}
+.bld .q.ok .ans{border-color:var(--ok);background:var(--okbg)}.bld .q.no .ans{border-color:var(--bad);background:var(--badbg)}
+.reply{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;align-items:center}
+.wbox{width:100%;font:inherit;padding:10px;border:2px solid var(--line);border-radius:10px}
+</style>
+
+<header>
+  <a href="../../../index.html" style="float:right;color:#fff;text-decoration:none;font-size:14px">🏠 Trang chủ</a><div class="t1">TIẾNG ANH 6 · GLOBAL SUCCESS · UNIT 1: MY NEW SCHOOL</div>
+  <div class="t2">A Closer Look 2 – Ngữ pháp</div>
+</header>
+<nav class="steps" id="steps"></nav>
+<main>
+
+<!-- PHẦN 1: NGỮ PHÁP -->
+<section class="part" data-p="1">
+ <div class="card">
+  <h2>Phần 1. Thì hiện tại đơn (The present simple)</h2>
+
+  <div class="sub-card">
+   <h3><span class="step">Bước 1</span>Khi nào dùng thì hiện tại đơn?</h3>
+   <ul class="ul">
+    <li><b>Thói quen, việc làm hằng ngày</b><div class="ex"><button class="say" data-cau="vd-1">🔊</button><i>We usually go to school by bus.</i></div></li>
+    <li><b>Sự thật, điều luôn đúng</b><div class="ex"><button class="say" data-cau="vd-2">🔊</button><i>The sun rises in the east.</i></div></li>
+    <li><b>Lịch cố định</b> (thời khoá biểu, giờ tàu xe…)<div class="ex"><button class="say" data-cau="vd-3">🔊</button><i>The art lesson starts at nine o'clock.</i></div></li>
+   </ul>
+   <div class="memo">🔎 <b>Dấu hiệu nhận biết:</b> every day, every week, on Mondays, at weekends, always, usually, often, sometimes, rarely, never…</div>
+   <div class="row" style="margin-top:8px"><button class="btn" data-giai="giai-b1-dung">👩‍🏫 Nghe cô giảng</button></div>
+  </div>
+
+  <div class="sub-card">
+   <h3><span class="step">Bước 2</span>Công thức</h3>
+   <div class="wrap-tbl"><table class="tbl">
+    <tr><th></th><th>I / you / we / they</th><th>he / she / it (1 người, 1 vật)</th></tr>
+    <tr><td>Khẳng định (+)</td><td>I <b>like</b> music.</td><td>She like<span class="hl-s">s</span> music.</td></tr>
+    <tr><td>Phủ định (−)</td><td>I <span class="hl-d">don't</span> like football.</td><td>He <span class="hl-d">doesn't</span> like football.</td></tr>
+    <tr><td>Câu hỏi (?)</td><td><span class="hl-d">Do</span> you like music?</td><td><span class="hl-d">Does</span> she like music?</td></tr>
+    <tr><td>Trả lời ngắn</td><td>Yes, I do. / No, I don't.</td><td>Yes, she does. / No, she doesn't.</td></tr>
+   </table></div>
+   <div class="ex"><button class="say" data-cau="vd-5">🔊</button><i>She likes music.</i><button class="say" data-cau="vd-6">🔊</button><i>He doesn't like football.</i></div>
+   <div class="ex"><button class="say" data-cau="vd-7">🔊</button><i>Does she like music?</i><button class="say" data-cau="vd-8">🔊</button><i>Yes, she does.</i><button class="say" data-cau="vd-9">🔊</button><i>No, she doesn't.</i></div>
+   <div class="memo">⚠️ <b>Lỗi hay gặp nhất:</b> đã có <b>does / doesn't</b> thì động từ <b>KHÔNG thêm s</b> nữa.<br>✅ Does he <b>play</b>…? &nbsp; ❌ Does he plays…? &nbsp;&nbsp; ✅ She doesn't <b>like</b>… &nbsp; ❌ She doesn't likes…</div>
+   <div class="row" style="margin-top:8px"><button class="btn" data-giai="giai-b2-cong-thuc">👩‍🏫 Nghe cô giảng</button></div>
+   <p class="task" style="margin:12px 0 4px"><b>Làm thử:</b> chọn từ đúng.</p>
+   <div id="d2"></div>
+  </div>
+
+  <div class="sub-card">
+   <h3><span class="step">Bước 3</span>Phân biệt HAVE và HAS</h3>
+   <div class="wrap-tbl"><table class="tbl">
+    <tr><th>Chủ ngữ</th><th>Dùng</th><th>Ví dụ</th></tr>
+    <tr><td>I / you / we / they<br>(Nam and Mai, my friends…)</td><td><b>have</b></td><td>We <b>have</b> new subjects. <button class="mini" data-cau="vd-10">🔊</button></td></tr>
+    <tr><td>he / she / it<br>(Duy, my school, my mum…)</td><td><b class="hl-s">has</b></td><td>My school <b class="hl-s">has</b> a large playground. <button class="mini" data-cau="vd-11">🔊</button></td></tr>
+    <tr><td>Có do / does / don't / doesn't</td><td>luôn là <b>have</b></td><td>She doesn't <b>have</b> a brother. <button class="mini" data-cau="vd-12">🔊</button><br>Does he <b>have</b> any friends? <button class="mini" data-cau="vd-13">🔊</button></td></tr>
+   </table></div>
+   <div class="memo">💡 <b>has</b> chính là <b>have</b> thêm “s”, nhưng viết đặc biệt: h-a-s (không viết “haves”).</div>
+   <div class="row" style="margin-top:8px"><button class="btn" data-giai="giai-b3-have">👩‍🏫 Nghe cô giảng</button></div>
+   <p class="task" style="margin:12px 0 4px"><b>Làm thử:</b> chọn <b>have</b> hay <b>has</b>.</p>
+   <div id="d3"></div>
+  </div>
+
+  <div class="sub-card">
+   <h3><span class="step">Bước 4</span>Cách thêm S / ES vào động từ (với he / she / it)</h3>
+   <div class="rules">
+    <div class="rule r1"><h4>① Hầu hết: thêm <b class="hl-s">-s</b></h4><div class="pr" data-pr="play plays|like likes|ride rides"></div></div>
+    <div class="rule r2"><h4>② Tận cùng <b>o, s, x, ch, sh, z</b>: thêm <b class="hl-s">-es</b></h4><div class="pr" data-pr="go goes|watch watches|wash washes|fix fixes"></div>
+      <div style="font-size:14px;margin-top:6px">Mẹo nhớ: <b>Ô</b>ng <b>S</b>áu <b>X</b>em <b>CH</b>ương trình <b>SH</b>ow <b>Z</b>ui</div></div>
+    <div class="rule r3"><h4>③ Phụ âm + <b>y</b>: đổi y → <b class="hl-s">i</b> + <b class="hl-s">es</b></h4><div class="pr" data-pr="study studies|cry cries|fly flies"></div>
+      <div style="font-size:14px;margin-top:6px">Nhưng nguyên âm (a, e, o, u) + y: chỉ thêm -s → play → play<b class="hl-s">s</b></div></div>
+    <div class="rule r4"><h4>④ Đặc biệt</h4><div class="pr" data-pr="have has|do does"></div></div>
+   </div>
+   <div class="row" style="margin-top:8px"><button class="btn" data-giai="giai-b4-s-es">👩‍🏫 Nghe cô giảng</button></div>
+   <p class="task" style="margin:12px 0 4px"><b>Làm thử:</b> gõ dạng đúng của động từ khi đi với <b>he / she / it</b>, rồi bấm <b>Kiểm tra</b>.</p>
+   <div id="d4"></div>
+   <div class="row" style="margin-top:8px"><button class="btn" id="d4check">Kiểm tra</button><span class="score" id="d4score"></span></div>
+  </div>
+
+  <div class="sub-card">
+   <h3><span class="step">Bước 5</span>Cách đọc đuôi S / ES</h3>
+   <div class="wrap-tbl"><table class="tbl">
+    <tr><th>Đọc là</th><th>Khi động từ tận cùng bằng âm</th><th>Ví dụ (bấm để nghe)</th></tr>
+    <tr><td>/s/</td><td>p, t, k, f</td><td class="pr2" data-w="stops gets likes"></td></tr>
+    <tr><td>/ɪz/</td><td>s, x, ch, sh, z</td><td class="pr2" data-w="watches washes fixes uses"></td></tr>
+    <tr><td>/z/</td><td>các âm còn lại</td><td class="pr2" data-w="plays goes studies rides"></td></tr>
+   </table></div>
+   <div class="row" style="margin-top:8px"><button class="btn" data-giai="giai-b5-doc-s">👩‍🏫 Nghe cô giảng</button></div>
+  </div>
+ </div>
+ <div class="next"><button class="btn" data-done="1">Sang Phần 2 →</button></div>
+</section>
+
+<!-- PHẦN 2: bài 1 -->
+<section class="part hide" data-p="2">
+ <div class="card mcq">
+  <h2>Phần 2. Chọn đáp án đúng</h2>
+  <p class="task"><i>Bài 1 SGK: Choose the correct answer A, B, or C.</i><br>Bấm chọn đáp án cho cả 5 câu, rồi bấm <b>Chấm điểm</b>.</p>
+  <div id="ex1"></div>
+  <div class="row"><button class="btn" id="ex1check">Chấm điểm</button><button class="btn ghost hide" id="ex1redo">Làm lại</button><span class="score" id="ex1score"></span></div>
+ </div>
+ <div class="next"><button class="btn" data-done="2">Sang Phần 3 →</button></div>
+</section>
+
+<!-- PHẦN 3: bài 2 -->
+<section class="part hide" data-p="3">
+ <div class="card">
+  <h2>Phần 3. Cô Nguyệt phỏng vấn Duy</h2>
+  <p class="task"><i>Bài 2 SGK: Miss Nguyet is interviewing Duy for the school newsletter. Write the correct form of the verbs.</i><br>Gõ dạng đúng của động từ trong ngoặc vào ô trống, rồi bấm <b>Chấm điểm</b>.</p>
+  <div class="dlg" id="ex2"></div>
+  <div class="row" style="margin-top:10px"><button class="btn" id="ex2check">Chấm điểm</button><button class="btn ghost hide" id="ex2redo">Làm lại</button><button class="btn ghost hide" id="ex2play">▶ Nghe cả bài hội thoại</button><span class="score" id="ex2score"></span></div>
+  <div id="ex2giai"></div>
+ </div>
+ <div class="next"><button class="btn" data-done="3">Sang Phần 4 →</button></div>
+</section>
+
+<!-- PHẦN 4: trạng từ tần suất + bài 3 -->
+<section class="part hide" data-p="4">
+ <div class="card">
+  <h2>Phần 4. Trạng từ chỉ tần suất (Adverbs of frequency)</h2>
+  <div class="sub-card">
+   <h3><span class="step">Bước 1</span>Thường xuyên đến mức nào?</h3>
+   <p class="task" style="margin:0">Bấm vào từng từ để nghe.</p>
+   <div class="scale" id="scale"></div>
+  </div>
+  <div class="sub-card">
+   <h3><span class="step">Bước 2</span>Đặt trạng từ ở đâu?</h3>
+   <ul class="ul">
+    <li>Đứng <b>TRƯỚC động từ thường</b>:<div class="ex"><button class="say" data-cau="vd-14">🔊</button><i>Tom <u>usually</u> takes the bus to school.</i></div></li>
+    <li>Câu phủ định: <b>don't / doesn't + trạng từ + động từ</b>:<div class="ex"><button class="say" data-cau="vd-15">🔊</button><i>They don't <u>often</u> go to the cinema.</i></div></li>
+    <li>Câu hỏi: <b>Do / Does + chủ ngữ + trạng từ + động từ</b>: <i>Do you <u>often</u> travel?</i></li>
+    <li>Đứng <b>SAU động từ to be</b> (am / is / are):<div class="ex"><button class="say" data-cau="vd-16">🔊</button><i>She is <u>always</u> happy.</i></div></li>
+   </ul>
+  </div>
+  <div class="sub-card">
+   <h3><span class="step">Bước 3</span>Bài 3 SGK: Fill the blanks with <i>usually, sometimes</i> or <i>never</i>.</h3>
+   <p class="task" style="margin:0 0 6px">Bấm vào chỗ trống rồi bấm từ để điền.</p>
+   <div class="box" id="pbox" style="position:static"></div>
+   <div class="pyr" id="pyr"></div>
+   <div class="row"><button class="btn" id="pcheck">Chấm điểm</button><button class="btn ghost hide" id="predo">Làm lại</button><span class="score" id="pscore"></span></div>
+   <div id="pgiai"></div>
+   <p class="task" style="margin:14px 0 6px"><b>Write a sentence with one of these adverbs.</b> – Viết một câu về em có dùng một trạng từ ở trên (không bắt buộc).</p>
+   <input class="wbox" id="wsen" placeholder="Ví dụ: I usually get up at 6 o'clock.">
+   <div class="row" style="margin-top:6px"><button class="btn ghost" id="wcheck">Cô xem giúp</button></div>
+   <div class="fb" id="wfb"></div>
+  </div>
+ </div>
+ <div class="next"><button class="btn" data-done="4">Sang Phần 5 →</button></div>
+</section>
+
+<!-- PHẦN 5: bài 4 -->
+<section class="part hide" data-p="5">
+ <div class="card mcq">
+  <h2>Phần 5. Chọn A hoặc B</h2>
+  <p class="task"><i>Bài 4 SGK: Choose the correct answer A or B to complete each sentence.</i><br>Chọn đáp án cho cả 5 câu, rồi bấm <b>Chấm điểm</b>.</p>
+  <div id="ex4"></div>
+  <div class="row"><button class="btn" id="ex4check">Chấm điểm</button><button class="btn ghost hide" id="ex4redo">Làm lại</button><span class="score" id="ex4score"></span></div>
+ </div>
+ <div class="next"><button class="btn" data-done="5">Sang Phần 6 →</button></div>
+</section>
+
+<!-- PHẦN 6: bài 5 -->
+<section class="part hide" data-p="6">
+ <div class="card bld">
+  <h2>Phần 6. Đặt câu hỏi và trả lời</h2>
+  <p class="task"><i>Bài 5 SGK: Make questions, and then interview your partner.</i><br>Bấm các mảnh theo đúng thứ tự để thành câu hỏi, rồi bấm <b>Kiểm tra</b>. Đúng rồi thì nghe câu hỏi và nói to câu trả lời của em.</p>
+  <div id="ex5"></div>
+  <p class="score" id="ex5score"></p>
+ </div>
+ <div class="next"><button class="btn" data-done="6">Xem kết quả →</button></div>
+</section>
+
+<!-- KẾT QUẢ -->
+<section class="part hide" data-p="7">
+ <div class="card" style="text-align:center"><h2>Em đã học xong A Closer Look 2!</h2><div class="big" id="total"></div></div>
+ <div class="card sum" id="sum"></div>
+ <div class="row" style="justify-content:center"><button class="btn ghost" id="restart">Học lại từ đầu</button></div>
+</section>
+
+</main>
+<div class="tip" id="tip"></div>
+
+<script src="../../../chung/hoc-tap.js?v=202610240914"></script>
+<script src="the-tu.js?v=202610240914"></script>
+<script src="loi-giang.js?v=202610240914"></script>
+<script src="../../../chung/bam-tu.js?v=202610240914"></script>
+<script>
+const A="audio/", KEY="u6-1-acl2-v1";
+const SL=id=>{ try{ window.SoLoi&&SoLoi.ghi(id); }catch(e){} };   // làm sai → ghi vào Sổ lỗi sai (mục riêng ở Trang chủ)
+
+let st={done:{}};
+try{ st=Object.assign(st, JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){}
+const save=()=>{ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
+const player=new Audio(); window.player=player; let playDone=null;
+function play(src){ if(playDone) playDone(); return new Promise(res=>{ playDone=res; player.pause(); player.src=A+src; player.onended=res; player.onerror=res; player.play().catch(res); }); }
+const cum=w=>`cum/${w.toLowerCase().replace(/ /g,"-")}.mp3`, sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const tip=document.getElementById("tip"); let tipT;
+function showTip(h){ tip.innerHTML=h; tip.classList.add("show"); clearTimeout(tipT); tipT=setTimeout(()=>tip.classList.remove("show"),2600); }
+document.addEventListener("click",e=>{ const g=e.target.closest("[data-giai]"); if(g) play(`giang/${g.dataset.giai}.mp3`); const c=e.target.closest("[data-cau]"); if(c) play(c.dataset.cau+".mp3"); const w=e.target.closest("[data-cum]"); if(w) play(cum(w.dataset.cum)); });
+
+/* các bước – trang Kết quả xem được bất cứ lúc nào */
+const NAMES=["1. Ngữ pháp","2. Bài 1","3. Bài 2","4. Trạng từ","5. Bài 4","6. Bài 5","Kết quả"], LAST=7;
+const stepsEl=document.getElementById("steps"); let cur=1;
+const unlocked=p=>true;   // Sếp dặn: không cần làm xong vẫn được qua phần khác
+function drawSteps(){ stepsEl.innerHTML=""; NAMES.forEach((n,i)=>{ const p=i+1,b=document.createElement("button"); b.textContent=n;
+  if(p===cur) b.className="on"; else if(st.done[p]) b.className="done"; b.disabled=!unlocked(p); b.onclick=()=>go(p); stepsEl.appendChild(b); }); }
+function go(p){ cur=p; player.pause(); document.querySelectorAll(".part").forEach(s=>s.classList.toggle("hide",+s.dataset.p!==p)); drawSteps(); if(p===LAST) drawSummary(); scrollTo(0,0); }
+document.querySelectorAll("[data-done]").forEach(b=>b.onclick=()=>{ const p=+b.dataset.done; st.done[p]=true; save(); go(p+1); });
+const nextBtn=p=>document.querySelector(`[data-done="${p}"]`);
+
+/* lời cô giảng */
+const LG=window.LOIGIANG||{giang:{},giai:{}}; let giangDang=null;
+document.querySelectorAll(".part").forEach(sec=>{ const k="p"+sec.dataset.p; if(!LG.giang[k]) return;
+  const g=document.createElement("div"); g.className="giang";
+  g.innerHTML=`<div class="gh"><span class="gt">👩‍🏫 Lời giảng của cô</span><button class="btn">▶ Nghe cô giảng</button><button class="btn ghost">Xem lời giảng</button></div><div class="gx">${LG.giang[k]}</div>`;
+  const [nghe,xem]=g.querySelectorAll("button");
+  nghe.onclick=async()=>{ if(giangDang===nghe){ player.pause(); giangDang=null; nghe.textContent="▶ Nghe cô giảng"; return; }
+    if(giangDang) giangDang.textContent="▶ Nghe cô giảng"; giangDang=nghe; nghe.textContent="⏸ Dừng"; await play(`giang/${k}.mp3`); if(giangDang===nghe){ giangDang=null; nghe.textContent="▶ Nghe cô giảng"; } };
+  xem.onclick=()=>{ g.classList.toggle("mo"); xem.textContent=g.classList.contains("mo")?"Ẩn lời giảng":"Xem lời giảng"; };
+  g.querySelectorAll(".gx i").forEach(BamTu.boc);
+  const card=sec.querySelector(".card"); card.insertBefore(g, card.querySelector("h2").nextSibling); });
+const giai=k=>(LG.giai||{})[k]||"";
+function nutGiai(k){ const b=document.createElement("button"); b.className="giai"; b.textContent="👩‍🏫 Nghe cô giải"; b.onclick=e=>{ e.stopPropagation(); play(`giang/giai-${k}.mp3`); }; return b; }
+function nutCau(k){ const b=document.createElement("button"); b.className="giai"; b.textContent="🔊 Nghe câu đúng"; b.onclick=e=>{ e.stopPropagation(); play(k+".mp3"); }; return b; }
+
+/* ---------- PHẦN 1 ---------- */
+// bài làm thử chọn nhanh (chấm ngay từng câu)
+function chonNhanh(el, items, ma){ items.forEach(([s,opts,right,why],i)=>{ const q=document.createElement("div"); q.className="drill";
+  q.innerHTML=`<span class="n">${i+1}.</span><span class="qs">${s.replace("___","<b>____</b>")}</span><span class="opts"></span><div class="fbx"></div>`;
+  opts.forEach(o=>{ const b=document.createElement("button"); b.className="opt"; b.textContent=o;
+    b.onclick=()=>{ if(q.dataset.done) return; q.dataset.done=1; const ok=o===right; b.classList.add(ok?"right":"wrong"); if(!ok) SL(`${ma}-${i+1}`);
+      if(!ok) [...q.querySelectorAll(".opt")].find(x=>x.textContent===right).classList.add("right");
+      q.querySelector(".qs b").textContent=right; const f=q.querySelector(".fbx"); f.className="fbx "+(ok?"ok":"no"); f.innerHTML=(ok?"✓ Đúng! ":"✗ Incorrect. ")+why; };
+    q.querySelector(".opts").appendChild(b); });
+  BamTu.boc(q.querySelector(".qs")); el.appendChild(q); }); }
+chonNhanh(document.getElementById("d2"),[
+ ["She ___ music.",["like","likes"],"likes","Chủ ngữ <b>she</b>, câu khẳng định → thêm s: <b>likes</b>."],
+ ["___ he play football?",["Do","Does"],"Does","Chủ ngữ <b>he</b> → câu hỏi dùng <b>Does</b>."],
+ ["I ___ like fish.",["don't","doesn't"],"don't","Chủ ngữ <b>I</b> → phủ định dùng <b>don't</b>."],
+ ["Does she ___ English?",["study","studies"],"study","Đã có <b>Does</b> → động từ giữ nguyên: <b>study</b>."],
+ ["My brother ___ watch TV in the morning.",["don't","doesn't"],"doesn't","<b>My brother</b> là một người (= he) → <b>doesn't</b>."]],"a2-d2");
+chonNhanh(document.getElementById("d3"),[
+ ["I ___ a cat.",["have","has"],"have","<b>I</b> → <b>have</b>."],
+ ["She ___ two brothers.",["have","has"],"has","<b>She</b> → <b>has</b>."],
+ ["My school ___ a big library.",["have","has"],"has","<b>My school</b> là một vật (= it) → <b>has</b>."],
+ ["Nam and Mai ___ new books.",["have","has"],"have","<b>Nam and Mai</b> là hai người (= they) → <b>have</b>."],
+ ["Does he ___ a bike?",["have","has"],"have","Đã có <b>Does</b> → luôn dùng <b>have</b>."],
+ ["Duy doesn't ___ a sister.",["have","has"],"have","Đã có <b>doesn't</b> → luôn dùng <b>have</b>."]],"a2-d3");
+// cặp động từ bấm nghe
+document.querySelectorAll("[data-pr]").forEach(el=>el.dataset.pr.split("|").forEach(p=>{ const [a,b]=p.split(" "); const s=document.createElement("span");
+  s.innerHTML=`<button class="vp" data-cum="${a}">${a}</button> → <button class="vp" data-cum="${b}">${b.replace(/^(.*?)(s|es|ies)$/,(m,x,y)=>a==="have"||a==="do"?`<b>${b}</b>`:`${x}<b>${y}</b>`)}</button>`; el.appendChild(s); }));
+document.querySelectorAll(".pr2").forEach(el=>el.dataset.w.split(" ").forEach(w=>{ const b=document.createElement("button"); b.className="vp"; b.dataset.cum=w; b.textContent="🔊 "+w; b.style.margin="2px"; el.appendChild(b); }));
+// gõ động từ thêm s/es
+const D4=[["play","plays","① thêm -s (trước y là nguyên âm a)"],["watch","watches","② tận cùng ch → -es"],["go","goes","② tận cùng o → -es"],["study","studies","③ phụ âm d + y → đổi y thành i + es"],
+ ["fix","fixes","② tận cùng x → -es"],["ride","rides","① thêm -s"],["wash","washes","② tận cùng sh → -es"],["cry","cries","③ phụ âm r + y → đổi y thành i + es"],["have","has","④ đặc biệt"],["teach","teaches","② tận cùng ch → -es"]];
+const d4=document.getElementById("d4");
+D4.forEach(([v],i)=>{ const q=document.createElement("div"); q.className="drill";
+  q.innerHTML=`<span class="n">${i+1}.</span><span>${v} → he / she</span><input autocomplete="off" autocapitalize="off" spellcheck="false"><button class="mini" data-cum="${v}">🔊</button><div class="fbx"></div>`; d4.appendChild(q); });
+document.getElementById("d4check").onclick=()=>{ let s=0; [...d4.children].forEach((q,i)=>{ const [v,r,why]=D4[i], inp=q.querySelector("input"), x=inp.value.trim().toLowerCase(), f=q.querySelector(".fbx");
+  if(!x){ inp.className=""; f.className="fbx"; f.textContent=""; return; }
+  const ok=x===r; if(ok) s++; else SL(`a2-d4-${i+1}`); inp.className=ok?"right":"wrong"; f.className="fbx "+(ok?"ok":"no");
+  f.innerHTML=(ok?"✓ Đúng! ":`✗ Đúng là <b>${r}</b>. `)+`Quy tắc ${why}. <button class="mini" data-cum="${r}">🔊 ${r}</button>`; });
+  st.d4=Math.max(st.d4||0,s); save(); document.getElementById("d4score").textContent=`Em đúng ${s}/${D4.length}`; };
+
+/* trắc nghiệm có nút Chấm điểm (bài 1, bài 4) */
+function tracNghiem(el, items, k, chk, redo, scoreEl, nextP, key){
+  const draw=()=>{ el.innerHTML=""; items.forEach(([s,opts],i)=>{ const q=document.createElement("div"); q.className="q";
+    q.innerHTML=`<div class="qt"><b>${i+1}.</b> <span class="qs">${s.replace("___","<b>________</b>")}</span></div><div class="opts"></div><div class="fb"></div>`;
+    opts.forEach((o,j)=>{ const b=document.createElement("button"); b.className="opt"; b.textContent="ABC"[j]+". "+o;
+      b.onclick=()=>{ if(q.dataset.lock) return; q.dataset.v=j; q.querySelectorAll(".opt").forEach(x=>x.classList.toggle("sel",x===b)); }; q.querySelector(".opts").appendChild(b); });
+    BamTu.boc(q.querySelector(".qs")); el.appendChild(q); });
+    document.getElementById(chk).classList.remove("hide"); document.getElementById(redo).classList.add("hide"); document.getElementById(scoreEl).textContent=""; };
+  draw();
+  document.getElementById(chk).onclick=()=>{ const qs=[...el.children]; if(qs.some(q=>q.dataset.v===undefined)){ showTip("Em chọn đáp án cho tất cả các câu rồi mới chấm nhé!"); return; }
+    let s=0; qs.forEach((q,i)=>{ q.dataset.lock=1; const r=items[i][2], v=+q.dataset.v, ok=v===r; if(ok) s++; else SL(`a2-${k.replace("ex","e")}-${i+1}`);
+      q.querySelectorAll(".opt").forEach((b,j)=>{ b.classList.remove("sel"); if(j===r) b.classList.add("right"); else if(j===v) b.classList.add("wrong"); });
+      const fb=q.querySelector(".fb"); fb.className="fb "+(ok?"ok":"no"); fb.innerHTML=(ok?"Correct! ":`Incorrect – Answer: <b>${"ABC"[r]}</b>. `)+giai(`${k}-${i+1}`)+" ";
+      fb.appendChild(nutCau(`${k}-${i+1}`)); fb.appendChild(nutGiai(`${k}-${i+1}`)); });
+    st[key]=Math.max(st[key]||0,s); save(); document.getElementById(scoreEl).textContent=`Em đúng ${s}/${items.length} câu`;
+    document.getElementById(chk).classList.add("hide"); if(s<items.length) document.getElementById(redo).classList.remove("hide"); nextBtn(nextP).disabled=false; };
+  document.getElementById(redo).onclick=draw; }
+
+/* ---------- PHẦN 2: bài 1 ---------- */
+tracNghiem(document.getElementById("ex1"),[
+ ["We ___ new subjects for this school year.",["have","has","having"],0],
+ ["Duy ___ to school every day.",["cycling","cycle","cycles"],2],
+ ["My new school ___ in the centre of the village.",["not","isn't","doesn't"],1],
+ ["I live near here. Where ___ live?",["do you","you","are you"],0],
+ ["My friend has a sister, but she ___ a brother.",["not has","don't have","doesn't have"],2]],"ex1","ex1check","ex1redo","ex1score",2,"ex1");
+
+/* ---------- PHẦN 3: bài 2 ---------- */
+const EX2=[["N","Tell us about your new school, Duy."],["D","Sure! My school {has|1. have} a large playground."],["N","{Do|2} you {have|2. have} any new friends?"],
+ ["D","Yes. And I {like|3. like} my new friends, Vy and Phong."],["N","{Does|4} Vy {walk|4. walk} to school with you?"],["D","Well, we often {ride|5. ride} our bicycles to school."],
+ ["N","What time do you go home?"],["D","I {go|6. go} home at 4 p.m. every day."],["N","Thank you!"]];
+const ex2=document.getElementById("ex2");
+function drawEx2(){ ex2.innerHTML=""; document.getElementById("ex2giai").innerHTML="";
+  EX2.forEach(([w,s],i)=>{ const d=document.createElement("div"); d.className="ln";
+    d.innerHTML=`<div class="who ${w}">${w==="N"?"Miss Nguyet:":"Duy:"}</div><div>${s.replace(/\{(\w+)\|([^}]+)\}/g,(m,a,h)=>`<input data-a="${a}" autocomplete="off" autocapitalize="off" spellcheck="false"><span class="hint">(${h.replace(/^\d+$/,"")})</span>`).replace(/<span class="hint">\(\)<\/span>/g,"")}</div>`;
+    ex2.appendChild(d); });
+  ["ex2check"].forEach(id=>document.getElementById(id).classList.remove("hide")); ["ex2redo","ex2play"].forEach(id=>document.getElementById(id).classList.add("hide")); document.getElementById("ex2score").textContent=""; }
+drawEx2();
+document.getElementById("ex2check").onclick=()=>{ const ins=[...ex2.querySelectorAll("input")]; if(ins.some(x=>!x.value.trim())){ showTip("Em điền hết các ô trống rồi mới chấm nhé!"); return; }
+  let s=0; ins.forEach((x,xi)=>{ const ok=x.value.trim().toLowerCase()===x.dataset.a.toLowerCase(); x.readOnly=true; x.classList.add(ok?"right":"wrong"); if(ok) s++; else SL(`a2-e2-${[1,2,2,3,4,4,5,6][xi]}`); if(!ok) x.insertAdjacentHTML("afterend",`<b style="color:var(--ok)"> → ${x.dataset.a}</b>`); });
+  const gi=document.getElementById("ex2giai"); for(let i=1;i<=6;i++){ const d=document.createElement("div"); d.className="fb ok"; d.style.cssText="display:block;background:#fff8e1;color:#5a4300"; d.innerHTML=giai("ex2-"+i)+" "; d.appendChild(nutGiai("ex2-"+i)); gi.appendChild(d); }
+  st.ex2=Math.max(st.ex2||0,s); save(); document.getElementById("ex2score").textContent=`Em đúng ${s}/${ins.length} ô`;
+  document.getElementById("ex2check").classList.add("hide"); if(s<ins.length) document.getElementById("ex2redo").classList.remove("hide"); document.getElementById("ex2play").classList.remove("hide"); nextBtn(3).disabled=false; };
+document.getElementById("ex2redo").onclick=drawEx2;
+let e2on=false;
+document.getElementById("ex2play").onclick=async e=>{ const b=e.currentTarget; if(e2on){ e2on=false; player.pause(); b.textContent="▶ Nghe cả bài hội thoại"; return; }
+  e2on=true; b.textContent="⏸ Dừng"; const ls=[...ex2.children];
+  for(let i=0;i<ls.length&&e2on;i++){ ls[i].style.background="#fff6d6"; await play(`ex2-${String(i+1).padStart(2,"0")}.mp3`); ls[i].style.background=""; await sleep(350); }
+  e2on=false; b.textContent="▶ Nghe cả bài hội thoại"; };
+
+/* ---------- PHẦN 4: trạng từ ---------- */
+[["always","100%","luôn luôn"],["usually","≈ 80%","thường xuyên"],["often","≈ 60%","thường"],["sometimes","≈ 40%","thỉnh thoảng"],["rarely","≈ 10%","hiếm khi"],["never","0%","không bao giờ"]].forEach(([w,p,vn])=>{
+  const d=document.createElement("div"); d.className="sc"; d.dataset.cum=w; const pc=parseInt(p.replace(/\D/g,""))||0;
+  d.innerHTML=`<b>${w}</b><div style="background:#eef1f6;border-radius:8px"><div class="bar" style="width:${Math.max(pc,3)}%"></div></div><span>${p} · ${vn}</span>`; document.getElementById("scale").appendChild(d); });
+const PYR=[["always",null],[null,"usually"],[null,"sometimes"],["rarely",null],[null,"never"]];
+const pyr=document.getElementById("pyr"), pbox=document.getElementById("pbox"); let pOn=null, pLock=false;
+function drawPyr(){ pyr.innerHTML=""; pbox.innerHTML=""; pLock=false; document.getElementById("pgiai").innerHTML="";
+  ["usually","sometimes","never"].forEach(w=>{ const c=document.createElement("button"); c.className="chip"; c.textContent=w; c.dataset.w=w;
+    c.onclick=()=>{ if(pLock||c.classList.contains("used")) return; const g=pOn||pyr.querySelector(".gap:not([data-v])"); if(!g) return; if(g.dataset.v) pClr(g); g.dataset.v=w; g.textContent=w; c.classList.add("used"); pSel(pyr.querySelector(".gap:not([data-v])")); }; pbox.appendChild(c); });
+  PYR.forEach(([fix,ans],i)=>{ const lv=document.createElement("div"); lv.className="lv"; lv.style.width=(40+i*12)+"%";
+    lv.innerHTML=`${i+1}. `+(fix?`<span>${fix}</span>`:`<button class="gap">&nbsp;</button>`); const g=lv.querySelector(".gap");
+    if(g){ g.dataset.ans=ans; g.onclick=e=>{ e.stopPropagation(); if(pLock) return; if(g.dataset.v) pClr(g); pSel(g); }; } pyr.appendChild(lv); });
+  pSel(pyr.querySelector(".gap")); document.getElementById("pcheck").classList.remove("hide"); document.getElementById("predo").classList.add("hide"); document.getElementById("pscore").textContent=""; }
+function pSel(g){ pyr.querySelectorAll(".gap").forEach(x=>x.classList.toggle("on",x===g)); pOn=g; }
+function pClr(g){ const w=g.dataset.v; delete g.dataset.v; g.innerHTML="&nbsp;"; const c=pbox.querySelector(`[data-w="${w}"]`); if(c) c.classList.remove("used"); }
+drawPyr();
+document.getElementById("pcheck").onclick=()=>{ const gs=[...pyr.querySelectorAll(".gap")]; if(gs.some(g=>!g.dataset.v)){ showTip("Em điền hết 3 chỗ trống rồi mới chấm nhé!"); return; }
+  pLock=true; pSel(null); let s=0; gs.forEach(g=>{ const ok=g.dataset.v===g.dataset.ans; g.classList.add(ok?"right":"wrong"); if(ok) s++; else { g.textContent=g.dataset.ans; SL("a2-e3-1"); } });
+  const d=document.createElement("div"); d.className="fb ok"; d.style.cssText="display:block;background:#fff8e1;color:#5a4300"; d.innerHTML=giai("ex3")+" "; d.appendChild(nutGiai("ex3")); document.getElementById("pgiai").appendChild(d);
+  st.ex3=Math.max(st.ex3||0,s); save(); document.getElementById("pscore").textContent=`Em đúng ${s}/3`;
+  document.getElementById("pcheck").classList.add("hide"); if(s<3) document.getElementById("predo").classList.remove("hide"); nextBtn(4).disabled=false; };
+document.getElementById("predo").onclick=drawPyr;
+document.getElementById("wcheck").onclick=()=>{ const s=document.getElementById("wsen").value.trim(), f=document.getElementById("wfb"); if(!s) return;
+  const adv=["always","usually","often","sometimes","rarely","never"].find(a=>new RegExp("\\b"+a+"\\b","i").test(s));
+  if(!adv){ f.className="fb no"; f.innerHTML="Câu của em chưa có trạng từ nào (always, usually, often, sometimes, rarely, never). Em thêm một trạng từ vào nhé."; return; }
+  const sauBe=new RegExp("\\b(am|is|are)\\s+"+adv+"\\b","i").test(s), truocBe=new RegExp("\\b"+adv+"\\s+(am|is|are)\\b","i").test(s);
+  f.className="fb "+(truocBe?"no":"ok");
+  f.innerHTML = truocBe ? `Câu có <b>${adv}</b> nhưng đứng trước <b>am/is/are</b>. Với động từ to be, trạng từ đứng <b>sau</b>: <i>I am ${adv} …</i>`
+    : `👍 Câu của em có trạng từ <b>${adv}</b>${sauBe?" đứng sau động từ to be – đúng vị trí!":". Nhớ: trạng từ đứng <b>trước</b> động từ thường, ví dụ <i>I "+adv+" get up early.</i>"} Em đọc to câu của mình nhé.`; };
+
+/* ---------- PHẦN 5: bài 4 ---------- */
+tracNghiem(document.getElementById("ex4"),[
+ ["I ___ late on Saturdays.",["get up usually","usually get up"],1],
+ ["My mum ___ to work late.",["rarely goes","goes rarely"],0],
+ ["___ at weekends?",["Do you often travel","Often do you travel"],0],
+ ["What kind of music ___?",["usually does Susan listen to","does Susan usually listen to"],1],
+ ["When ___ go on holiday each year?",["do you usually","you usually"],0]],"ex4","ex4check","ex4redo","ex4score",5,"ex4");
+
+/* ---------- PHẦN 6: bài 5 ---------- */
+const EX5=[["you / often / ride your bicycle / to school",["Do","you","often","ride your bicycle","to school"]],["you / sometimes / study / in the school library",["Do","you","sometimes","study","in the school library"]],
+ ["you / like / your new school",["Do","you","like","your new school"]],["your friends / always / go to school / with you",["Do","your friends","always","go to school","with you"]],
+ ["you / usually / do your homework / after school",["Do","you","usually","do your homework","after school"]]];
+const ex5=document.getElementById("ex5"); let ex5ok=0;
+EX5.forEach(([goi,ans],i)=>{ const q=document.createElement("div"); q.className="q";
+  const tron=[...ans].sort(()=>Math.random()-.5); if(tron.join()===ans.join()) tron.reverse();
+  q.innerHTML=`<div class="qt"><b>${i+1}.</b> <span style="color:var(--mute)">${goi}</span></div><div class="ans"></div><div class="pool"></div><div class="row"><button class="mini kt">Kiểm tra</button><button class="mini xo">Xoá làm lại</button></div><div class="fb"></div><div class="reply hide"></div>`;
+  const an=q.querySelector(".ans"), po=q.querySelector(".pool");
+  tron.forEach(t=>{ const c=document.createElement("button"); c.className="chip"; c.textContent=t;
+    c.onclick=()=>{ if(q.dataset.ok||c.classList.contains("used")) return; c.classList.add("used"); const x=document.createElement("button"); x.className="chip"; x.textContent=t;
+      x.onclick=()=>{ if(q.dataset.ok) return; x.remove(); c.classList.remove("used"); }; an.appendChild(x); }; po.appendChild(c); });
+  q.querySelector(".xo").onclick=()=>{ if(q.dataset.ok) return; an.innerHTML=""; po.querySelectorAll(".chip").forEach(c=>c.classList.remove("used")); q.classList.remove("no"); q.querySelector(".fb").className="fb"; };
+  q.querySelector(".kt").onclick=()=>{ const got=[...an.children].map(c=>c.textContent); const fb=q.querySelector(".fb");
+    if(got.length<ans.length){ showTip("Em xếp hết các mảnh rồi mới kiểm tra nhé!"); return; }
+    if(got.join("|")===ans.join("|")){ q.dataset.ok=1; q.classList.remove("no"); q.classList.add("ok"); ex5ok++; st.ex5=Math.max(st.ex5||0,ex5ok); save();
+      an.insertAdjacentHTML("beforeend","<b>?</b>"); fb.className="fb ok"; fb.innerHTML="✓ Correct! <i>"+ans.join(" ")+"?</i> ";
+      fb.appendChild(nutCau("ex5-"+(i+1))); if(i===0) fb.appendChild(nutGiai("ex5"));
+      const rp=q.querySelector(".reply"); rp.classList.remove("hide");
+      rp.innerHTML=`<span>Em trả lời:</span><button class="mini" data-cum="yes, i do">🔊 Yes, I do.</button><button class="mini" data-cum="no, i don't">🔊 No, I don't.</button><button class="mini mic">🎤 Nói: Yes, I do.</button><button class="mini mic">🎤 Nói: No, I don't.</button><span class="kq" style="font-size:13px"></span>`;
+      const [m1,m2]=rp.querySelectorAll(".mic"), kq=rp.querySelector(".kq"); m1.onclick=()=>BamTu.luyen("yes i do",m1,kq); m2.onclick=()=>BamTu.luyen("no i don't",m2,kq);
+      play("ex5-"+(i+1)+".mp3"); }
+    else { SL(`a2-e5-${i+1}`); q.classList.add("no"); fb.className="fb no"; fb.innerHTML="Incorrect (wrong order). Nhớ: <b>Do</b> + chủ ngữ + trạng từ + động từ + phần còn lại. Bấm vào mảnh đã xếp để lấy ra, rồi xếp lại nhé."; } };
+  ex5.appendChild(q); });
+
+/* ---------- KẾT QUẢ ---------- */
+function drawSummary(){ const g=k=>st[k]??0;
+  const pct=Math.round((g("ex1")/5+g("ex2")/8+g("ex3")/3+g("ex4")/5+g("ex5")/5)/5*100);
+  document.getElementById("total").textContent=pct+" điểm";
+  document.getElementById("sum").innerHTML=`<div><span>1. Ngữ pháp – gõ s/es (luyện thêm)</span><b>${g("d4")}/10</b></div><div><span>2. Bài 1 – chọn A, B, C</span><b>${g("ex1")}/5</b></div>
+   <div><span>3. Bài 2 – chia động từ</span><b>${g("ex2")}/8</b></div><div><span>4. Bài 3 – trạng từ</span><b>${g("ex3")}/3</b></div><div><span>5. Bài 4 – chọn A, B</span><b>${g("ex4")}/5</b></div><div><span>6. Bài 5 – đặt câu hỏi</span><b>${g("ex5")}/5</b></div>`; }
+document.getElementById("restart").onclick=()=>{ st={done:{}}; save(); location.reload(); };
+go(1);
+</script>
+</body>
+</html>

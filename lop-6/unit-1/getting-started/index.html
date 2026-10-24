@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 – Getting Started · Tiếng Anh 6</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#1d2433;--mute:#667085;--pri:#1f6feb;--pri2:#e8f0fe;--ok:#12805c;--okbg:#e6f6ef;--bad:#c4321a;--badbg:#fdecea;--line:#dfe5ee;
+ --phong:#1f6feb;--vy:#c2185b;--duy:#e07b00}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:#123a7a;color:#fff;padding:14px 16px}
+header .t1{font-size:13px;opacity:.85;letter-spacing:.03em}
+header .t2{font-size:21px;font-weight:700}
+.steps{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.steps button{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;font:inherit;font-size:14px;color:var(--mute);cursor:pointer}
+.steps button.on{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}
+.steps button.done{border-color:var(--ok);color:var(--ok)}
+.steps button.done::before{content:"✓ "}
+.steps button:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.08);margin-bottom:14px}
+h2{margin:0 0 4px;font-size:20px}
+.task{color:var(--mute);font-size:15px;margin:0 0 14px}
+.btn{border:0;background:var(--pri);color:#fff;border-radius:10px;padding:11px 18px;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:var(--pri2);color:var(--pri)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.next{display:flex;justify-content:flex-end;margin-top:6px}
+.knock{font-style:italic;color:var(--mute);margin:6px 0 10px}
+.line{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer}
+.line:hover{background:#f6f8fc}
+.line.playing{background:#fff6d6}
+.who{flex:0 0 58px;font-weight:700}
+.who.Phong{color:var(--phong)}.who.Vy{color:var(--vy)}.who.Duy{color:var(--duy)}
+.say{flex:1}
+.w{border-bottom:2px dotted var(--pri);color:var(--pri);cursor:help}
+.tip{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1d2433;color:#fff;padding:10px 16px;border-radius:12px;font-size:16px;opacity:0;pointer-events:none;transition:.2s;max-width:90vw;z-index:9}
+.tip.show{opacity:1}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.vc{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;cursor:pointer;background:#fff}
+.vc:hover{border-color:var(--pri)}
+.vc .play{flex:0 0 38px;height:38px;border-radius:50%;background:var(--pri2);display:grid;place-items:center;font-size:16px}
+.vc b{display:block;font-size:18px}
+.vc .ipa{color:var(--mute);font-size:14px}
+.vc .vn{font-size:15px}
+.note{background:#f6f8fc;border-left:4px solid var(--pri);border-radius:8px;padding:10px 14px;margin-top:14px;font-size:15.5px}
+.note p{margin:4px 0}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.q .qt{margin-bottom:8px}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{border:2px solid var(--line);background:#fff;border-radius:10px;padding:8px 16px;font:inherit;cursor:pointer;min-width:58px}
+.opt.sel{border-color:var(--pri);background:var(--pri2)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.fb{margin-top:8px;font-size:15px;border-radius:8px;padding:8px 10px;display:none}
+.fb.ok{display:block;background:var(--okbg);color:var(--ok)}
+.fb.no{display:block;background:var(--badbg);color:var(--bad)}
+.fb q{font-style:italic;quotes:"“" "”"}
+.score{font-size:18px;font-weight:700;margin:6px 0 12px}
+.roles{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.mic{background:var(--bad)}
+.heard{font-size:15px;color:var(--mute);margin-top:4px}
+.big{font-size:44px;font-weight:800;color:var(--pri);margin:4px 0}
+.sum div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0}
+.hide{display:none}
+@media (max-width:480px){body{font-size:16px}.who{flex-basis:50px}}
+.box{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--pri);border-radius:12px;margin-bottom:14px;position:sticky;top:58px;background:#fff;z-index:3}
+.chip{border:0;background:var(--pri2);color:var(--pri);font:inherit;font-weight:700;padding:8px 16px;border-radius:999px;cursor:pointer}
+.chip.used{opacity:.3;cursor:default}
+.gap{display:inline-block;min-width:96px;border:0;border-bottom:2px solid var(--mute);background:#f6f8fc;font:inherit;font-weight:700;color:var(--pri);padding:2px 8px;margin:0 3px;border-radius:6px 6px 0 0;cursor:pointer;text-align:center}
+.gap.on{outline:3px solid #ffd75e;background:#fff8dc}
+.gap.right{color:var(--ok);border-color:var(--ok);background:var(--okbg)}
+.gap.wrong{color:var(--bad);border-color:var(--bad);background:var(--badbg)}
+.fill .q .qt{line-height:2.1}
+.sub{display:block;margin-top:2px}
+.giang{background:linear-gradient(135deg,#fff7e0,#fff);border:1px solid #f3d37a;border-radius:14px;padding:12px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+.giang .gh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.giang .gt{font-weight:700;color:#8a5a00}
+.giang .btn{padding:8px 14px}
+.giang .gx{font-size:15.5px;line-height:1.6;color:#3b3220;display:none}
+.giang.mo .gx{display:block}
+.giang .gx i{color:var(--pri);font-weight:600}
+.giai{display:inline-flex;align-items:center;gap:4px;border:0;border-radius:8px;padding:4px 10px;margin:4px 6px 0 0;background:#fff3cd;color:#8a5a00;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:560px){.mgrid{grid-template-columns:repeat(2,1fr)}}
+.mc{border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;align-items:center;background:#fff}
+.mc .im{position:relative;width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#f2f4f8}
+.mc img{width:100%;height:100%;object-fit:contain}
+.mc .so{position:absolute;left:6px;top:6px;background:var(--pri);color:#fff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-weight:700;font-size:14px}
+.mc .gap{width:100%;min-width:0;margin:0}
+.mc .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.mc .acts button{border:0;border-radius:8px;padding:5px 9px;background:var(--pri2);color:var(--pri);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.mc .kq{font-size:13px;min-height:0;text-align:center}
+.mc .kq.ok{color:var(--ok)}.mc .kq.no{color:var(--bad)}
+.ktin{display:flex;gap:8px}
+.ktin input{flex:1;min-width:0;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:10px}
+.ktin input:focus{outline:none;border-color:var(--pri)}
+.klist{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.kitem{display:flex;align-items:center;gap:6px;background:var(--okbg);color:var(--ok);border-radius:999px;padding:6px 8px 6px 12px;font-weight:600}
+.kitem i{font-style:normal;font-weight:400;color:#2d5a47;font-size:14px}
+.kitem button{border:0;background:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer}
+.kmsg{margin-top:8px;font-size:15px;border-radius:8px;padding:8px 10px;display:none}
+.kmsg.no{display:block;background:var(--badbg);color:var(--bad)}
+.kmsg.ok{display:block;background:var(--okbg);color:var(--ok)}
+.kmsg button{border:0;background:#fff;color:var(--pri);font:inherit;font-weight:700;border-radius:8px;padding:2px 8px;margin:0 2px;cursor:pointer}
+.lplay{flex:0 0 32px;height:32px;border:0;border-radius:50%;background:var(--pri2);cursor:pointer;font-size:14px}
+.line{cursor:default}
+
+/* Điện thoại: tên nhân vật một dòng, lời thoại chạy ngang hết khung (Sếp dặn 20/10/2026) */
+@media (max-width:600px){.line{flex-wrap:wrap;row-gap:2px}.line .who{flex:1 1 auto;min-width:0;align-self:center}.line .say{flex:1 1 100%;min-width:0}}
+</style>
+<link rel="stylesheet" href="../../../chung/bam-tu.css?v=202610240914">
+</head>
+<body>
+<header>
+  <a href="../../../index.html" style="float:right;color:#fff;text-decoration:none;font-size:14px">🏠 Trang chủ</a><div class="t1">TIẾNG ANH 6 · GLOBAL SUCCESS · UNIT 1: MY NEW SCHOOL</div>
+  <div class="t2">Getting Started – A special day</div>
+</header>
+<nav class="steps" id="steps"></nav>
+<main>
+
+<!-- PHẦN 1 -->
+<section class="part" data-p="1">
+ <div class="card">
+  <h2>Phần 1. Nghe, đọc và học từ vựng</h2>
+  <p class="task">Bấm <b>Nghe cả bài</b> và đọc theo. Bấm 🔊 đầu câu để nghe lại câu đó.<br>Bấm <b>1 lần</b> vào từ bất kỳ: nghe từ và luyện đọc. Bấm <b>2 lần</b>: xem nghĩa và họ từ. <span class="w">Từ gạch chân</span> là từ mới.</p>
+  <div class="row" style="margin-bottom:10px"><button class="btn" id="playAll">▶ Nghe cả bài</button></div>
+  <div class="knock">(loud knock – tiếng gõ cửa)</div>
+  <div id="dialog"></div>
+ </div>
+ <div class="card">
+  <h2>Từ vựng</h2>
+  <p class="task">Bấm vào từng thẻ để nghe phát âm, rồi đọc to theo.</p>
+  <div class="vgrid" id="vgrid"></div>
+  <div class="note">
+   <b>Mẫu câu hay trong bài</b>
+   <p>• <i>Nice to meet you.</i> – Rất vui được gặp bạn. (nói khi gặp ai lần đầu)</p>
+   <p>• <i>Just a minute.</i> – Chờ một chút nhé.</p>
+   <p>• <i>Your school bag <b>looks</b> heavy.</i> – Cặp của bạn <b>trông</b> nặng quá. (look + tính từ)</p>
+   <p>• <i>Let me put on my uniform.</i> – Để mình mặc đồng phục đã.</p>
+  </div>
+ </div>
+ <div class="card">
+  <h2>Kiểm tra nhanh</h2>
+  <p class="task">Nghe từ rồi chọn nghĩa đúng.</p>
+  <div id="vquiz"></div>
+  <div class="row"><button class="btn" id="vcheck">Chấm điểm</button><span class="score" id="vscore"></span></div>
+ </div>
+ <div class="next"><button class="btn" data-done="1">Sang Phần 2 →</button></div>
+</section>
+
+<!-- PHẦN 3 -->
+<section class="part hide" data-p="2">
+ <div class="card">
+  <h2>Phần 2. True or False?</h2>
+  <p class="task"><i>Bài 2 SGK: Read the conversation again and tick T (True) or F (False).</i><br>Đọc lại đoạn hội thoại, chọn <b>T</b> nếu câu đúng, <b>F</b> nếu câu sai. Làm xong bấm <b>Chấm điểm</b>.</p>
+  <div id="tf"></div>
+  <div class="row"><button class="btn" id="tfcheck">Chấm điểm</button><button class="btn ghost hide" id="tfredo">Làm lại</button><span class="score" id="tfscore"></span></div>
+ </div>
+ <div class="next"><button class="btn" data-done="2">Sang Phần 3 →</button></div>
+</section>
+
+<!-- PHẦN 4: bài 3 SGK -->
+<section class="part hide" data-p="3">
+ <div class="card fill">
+  <h2>Phần 3. Điền từ</h2>
+  <p class="task"><i>Bài 3 SGK: Write ONE word from the box in each gap.</i><br>Bấm vào chỗ trống, rồi bấm từ trong khung để điền. Mỗi từ dùng một lần. Bấm lại vào chỗ đã điền để xoá.</p>
+  <div class="box" id="fbox"></div>
+  <div id="fill"></div>
+  <div class="row"><button class="btn" id="fcheck">Chấm điểm</button><button class="btn ghost hide" id="fredo">Làm lại</button><span class="score" id="fscore"></span></div>
+ </div>
+ <div class="next"><button class="btn" data-done="3">Sang Phần 4 →</button></div>
+</section>
+
+<!-- PHẦN 5: bài 4 SGK -->
+<section class="part hide" data-p="4">
+ <div class="card">
+  <h2>Phần 4. Đồ dùng học tập</h2>
+  <p class="task"><i>Bài 4 SGK: Match the words and phrases with the school things. Then listen and repeat.</i><br>Bấm vào ô dưới ảnh, rồi bấm tên đồ vật để ghép. Ghép xong bấm <b>Chấm điểm</b>, rồi nghe và đọc theo.</p>
+  <div class="box" id="mbox"></div>
+  <div class="mgrid" id="match"></div>
+  <div class="row" style="margin-top:12px"><button class="btn" id="mcheck">Chấm điểm</button><button class="btn ghost hide" id="mredo">Làm lại</button><button class="btn ghost hide" id="mrep">▶ Nghe và đọc theo cả 6 từ</button><span class="score" id="mscore"></span></div>
+ </div>
+ <div class="next"><button class="btn" data-done="4">Sang Phần 5 →</button></div>
+</section>
+
+<!-- PHẦN 6: bài 5 SGK -->
+<section class="part hide" data-p="5">
+ <div class="card">
+  <h2>Phần 5. Kể tên đồ vật quanh em</h2>
+  <p class="task"><i>Bài 5 SGK: Look around the class. Write the names of the things you see in your notebook.</i><br>Ở nhà, em nhìn quanh góc học tập hoặc mở cặp sách. Gõ tên đồ vật bằng tiếng Anh rồi bấm <b>Thêm</b>. Gõ nhiều đồ vật một lần thì cách nhau bằng dấu phẩy. Em viết được càng nhiều càng tốt.</p>
+  <div class="ktin"><input id="kin" placeholder="Ví dụ: ruler" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn" id="kadd">Thêm</button></div>
+  <div class="kmsg" id="kmsg"></div>
+  <div class="klist" id="klist"></div>
+  <p class="score" id="kscore"></p>
+ </div>
+ <div class="next"><button class="btn" data-done="5">Sang Phần 6 →</button></div>
+</section>
+
+<!-- PHẦN 4 -->
+<section class="part hide" data-p="6">
+ <div class="card">
+  <h2>Phần 6. Luyện nói – Đóng vai</h2>
+  <p class="task">Chọn một bạn để đóng vai. Máy đọc lời các bạn khác; đến lượt em thì bấm 🎤 và đọc to câu của mình.</p>
+  <div class="roles" id="roles"></div>
+  <div id="speak"></div>
+ </div>
+ <div class="next"><button class="btn" data-done="6">Xem kết quả →</button></div>
+</section>
+
+<!-- KẾT QUẢ -->
+<section class="part hide" data-p="7">
+ <div class="card" style="text-align:center">
+  <h2>Em đã học xong Getting Started!</h2>
+  <div class="big" id="total"></div>
+ </div>
+ <div class="card sum" id="sum"></div>
+ <div class="row" style="justify-content:center"><button class="btn ghost" id="restart">Học lại từ đầu</button></div>
+</section>
+
+</main>
+<div class="tip" id="tip"></div>
+
+<script src="../../../chung/hoc-tap.js?v=202610240914"></script>
+<script src="the-tu.js?v=202610240914"></script>
+<script src="loi-giang.js?v=202610240914"></script>
+<script src="../../../chung/bam-tu.js?v=202610240914"></script>
+<script>
+const A = "audio/";
+const SL=id=>{ try{ window.SoLoi&&SoLoi.ghi(id); }catch(e){} };   // làm sai → ghi vào Sổ lỗi sai (mục riêng ở Trang chủ)
+
+const LINES = [
+ ["Phong","Hi, Vy."],
+ ["Vy","Hi, Phong. Are you {ready}?"],
+ ["Phong","Just a {minute}."],
+ ["Vy","Oh, this is Duy, my new {friend}."],
+ ["Phong","Hi, Duy. Nice to meet you."],
+ ["Duy","Hi, Phong. I live {near} here, and we go to the {same} school!"],
+ ["Phong","Good. Hmm, your {school bag} looks {heavy}."],
+ ["Duy","Yes! I have new books, and we have new {subjects} to {study}."],
+ ["Phong","And a new {uniform}, Duy! You look {smart}!"],
+ ["Duy","Thanks, Phong. We always look {smart} in our {uniforms}."],
+ ["Phong","Let me {put on} my {uniform}. Then we can go."]
+];
+const VOCAB = [
+ ["ready","/ˈredi/","sẵn sàng"],["minute","/ˈmɪnɪt/","phút"],["friend","/frend/","bạn, bạn bè"],
+ ["near","/nɪə(r)/","gần"],["same","/seɪm/","giống nhau, cùng"],["school bag","/ˈskuːl bæɡ/","cặp sách"],
+ ["heavy","/ˈhevi/","nặng"],["subject","/ˈsʌbdʒɪkt/","môn học"],["study","/ˈstʌdi/","học"],
+ ["uniform","/ˈjuːnɪfɔːm/","đồng phục"],["smart","/smɑːt/","bảnh bao, gọn gàng"],["put on","/pʊt ɒn/","mặc (quần áo) vào"]
+];
+const VMAP = Object.fromEntries(VOCAB.map(v=>[v[0],v]));
+VMAP.subjects=VMAP.subject; VMAP.uniforms=VMAP.uniform;
+const TF = [
+ ["Vy, Phong, and Duy go to the same school.", "T", 5, "Duy nói: “we go to the same school” – cả ba bạn học cùng trường."],
+ ["Duy is Phong's friend.", "F", 3, "Vy giới thiệu: “this is Duy, <b>my</b> new friend” – Duy là bạn mới của <b>Vy</b>. Phong mới gặp Duy lần đầu (“Nice to meet you”)."],
+ ["Phong says Duy looks smart in his uniform.", "T", 8, "Phong nói: “And a new uniform, Duy! You look smart!”"],
+ ["They have new subjects to study.", "T", 7, "Duy nói: “we have new subjects to study.”"],
+ ["Phong is wearing a school uniform.", "F", 10, "Phong nói: “Let me put on my uniform.” – Phong <b>chưa</b> mặc đồng phục, bạn ấy sắp đi mặc."]
+];
+const TOTAL_PARTS = 4;
+const KEY = "u6-1-gs-v3";
+let st = {done:{}, vq:null, tf:null, fb:null, mt:null, kt:[], sp:null};
+try{ st = Object.assign(st, JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){}
+const save = ()=>{ try{localStorage.setItem(KEY, JSON.stringify(st));}catch(e){} };
+
+/* ---------- âm thanh ---------- */
+const player = new Audio(); window.player = player;
+let playDone=null;  // tiếng đang phát bị thay bằng tiếng khác thì coi như đã xong, để nút "Dừng" trở lại bình thường
+function play(src){ if(playDone) playDone(); return new Promise(res=>{ playDone=res; player.pause(); player.src = A+src; player.onended = res; player.onerror = res; player.play().catch(res); }); }
+const tip = document.getElementById("tip"); let tipT;
+function showTip(html){ tip.innerHTML = html; tip.classList.add("show"); clearTimeout(tipT); tipT = setTimeout(()=>tip.classList.remove("show"), 2600); }
+const fileOf = w => "w_"+VMAP[w][0].replace(" ","_")+".mp3";
+
+/* ---------- bước ---------- */
+const NAMES = ["1. Nghe, đọc & từ vựng","2. True / False","3. Điền từ","4. Đồ dùng","5. Kể tên","6. Luyện nói","Kết quả"];
+const stepsEl = document.getElementById("steps");
+let cur = 1;
+function unlocked(p){ return true; }   // Sếp dặn: không cần làm xong vẫn được qua phần khác
+function drawSteps(){
+  stepsEl.innerHTML = "";
+  NAMES.forEach((n,i)=>{ const p=i+1, b=document.createElement("button");
+    b.textContent=n; if(p===cur) b.className="on"; else if(st.done[p]) b.className="done";
+    b.disabled = !unlocked(p); b.onclick=()=>go(p); stepsEl.appendChild(b); });
+}
+function go(p){
+  cur=p; player.pause();
+  document.querySelectorAll(".part").forEach(s=>s.classList.toggle("hide", +s.dataset.p!==p));
+  drawSteps(); if(p===7) drawSummary(); window.scrollTo(0,0);
+}
+document.querySelectorAll("[data-done]").forEach(b=>b.onclick=()=>{ const p=+b.dataset.done; st.done[p]=true; save(); go(p+1); });
+const nextBtn = p => document.querySelector(`[data-done="${p}"]`);
+
+/* ---------- LỜI CÔ GIẢNG (Sếp dặn 19/10/2026: mỗi phần có lời giảng của giáo viên + lời giải) ---------- */
+const LG = window.LOIGIANG||{giang:{},giai_tf:[],giai_fill:[]};
+let giangDang=null;
+document.querySelectorAll(".part").forEach(sec=>{
+  const k="p"+sec.dataset.p; if(!LG.giang[k]) return;
+  const g=document.createElement("div"); g.className="giang";
+  g.innerHTML=`<div class="gh"><span class="gt">👩‍🏫 Lời giảng của cô</span><button class="btn">▶ Nghe cô giảng</button><button class="btn ghost">Xem lời giảng</button></div><div class="gx">${LG.giang[k]}</div>`;
+  const [nghe,xem]=g.querySelectorAll("button");
+  nghe.onclick=async()=>{ if(giangDang===nghe){ player.pause(); giangDang=null; nghe.textContent="▶ Nghe cô giảng"; return; }
+    if(giangDang) giangDang.textContent="▶ Nghe cô giảng";
+    giangDang=nghe; nghe.textContent="⏸ Dừng"; await play(`giang/${k}.mp3`); if(giangDang===nghe){ giangDang=null; nghe.textContent="▶ Nghe cô giảng"; } };
+  xem.onclick=()=>{ g.classList.toggle("mo"); xem.textContent=g.classList.contains("mo")?"Ẩn lời giảng":"Xem lời giảng"; };
+  g.querySelectorAll(".gx i").forEach(BamTu.boc);
+  const card=sec.querySelector(".card"); card.insertBefore(g, card.querySelector("h2").nextSibling);
+});
+function nutGiai(file){ const b=document.createElement("button"); b.className="giai"; b.textContent="👩‍🏫 Nghe cô giải"; b.onclick=()=>play(`giang/${file}.mp3`); return b; }
+
+/* ---------- PHẦN 1 ---------- */
+const dlg = document.getElementById("dialog");
+LINES.forEach(([who,txt],i)=>{
+  const d=document.createElement("div"); d.className="line"; d.dataset.i=i;
+  const html = txt.replace(/\{([^}]+)\}/g,(m,w)=>`<span class="w" data-w="${w}">${w}</span>`);
+  d.innerHTML=`<button class="lplay" title="Nghe câu này">🔊</button><div class="who ${who}">${who}:</div><div class="say">${html}</div>`;
+  d.querySelector(".lplay").onclick=()=>playLine(i);
+  BamTu.boc(d.querySelector(".say"));
+  dlg.appendChild(d);
+});
+const lineEls = [...dlg.children];
+async function playLine(i){ lineEls.forEach(e=>e.classList.remove("playing")); lineEls[i].classList.add("playing"); await play(`line${String(i+1).padStart(2,"0")}.mp3`); lineEls[i].classList.remove("playing"); }
+let allOn=false;
+document.getElementById("playAll").onclick=async e=>{
+  if(allOn){ allOn=false; player.pause(); e.target.textContent="▶ Nghe cả bài"; return; }
+  allOn=true; e.target.textContent="⏸ Dừng";
+  await play("knock.mp3");
+  for(let i=0;i<LINES.length && allOn;i++){ await playLine(i); await new Promise(r=>setTimeout(r,350)); }
+  allOn=false; e.target.textContent="▶ Nghe cả bài";
+};
+
+/* ---------- PHẦN 2 ---------- */
+const vg=document.getElementById("vgrid");
+VOCAB.forEach(([w,ipa,vn])=>{ const c=document.createElement("div"); c.className="vc";
+  c.innerHTML=`<div class="play">🔊</div><div><b>${w}</b><div class="ipa">${ipa}</div><div class="vn">${vn}</div></div>`;
+  c.onclick=()=>play(fileOf(w)); vg.appendChild(c); });
+const VQ = [["heavy",["nặng","nhẹ","to"]],["subject",["sách","môn học","lớp học"]],["same",["khác nhau","mới","giống nhau, cùng"]],["uniform",["đồng phục","cặp sách","giày"]],["near",["xa","gần","ở trong"]]];
+const vqEl=document.getElementById("vquiz"); const vAns={};
+VQ.forEach(([w,opts],qi)=>{ const q=document.createElement("div"); q.className="q";
+  q.innerHTML=`<div class="qt row"><button class="btn ghost" style="padding:6px 12px">🔊</button> <b>Câu ${qi+1}.</b> Từ <b>${w}</b> nghĩa là gì?</div><div class="opts"></div><div class="fb"></div>`;
+  q.querySelector("button").onclick=()=>play(fileOf(w));
+  opts.forEach(o=>{ const b=document.createElement("button"); b.className="opt"; b.textContent=o;
+    b.onclick=()=>{ if(q.dataset.locked) return; vAns[qi]=o; q.querySelectorAll(".opt").forEach(x=>x.classList.toggle("sel",x===b)); };
+    q.querySelector(".opts").appendChild(b); });
+  vqEl.appendChild(q); });
+document.getElementById("vcheck").onclick=()=>{
+  if(Object.keys(vAns).length<VQ.length){ showTip("Em làm hết các câu rồi mới chấm nhé!"); return; }
+  let s=0; [...vqEl.children].forEach((q,qi)=>{ const right=VMAP[VQ[qi][0]][2]; q.dataset.locked=1;
+    q.querySelectorAll(".opt").forEach(b=>{ b.classList.remove("sel"); if(b.textContent===right) b.classList.add("right"); else if(b.textContent===vAns[qi]) b.classList.add("wrong"); });
+    const fb=q.querySelector(".fb"); if(vAns[qi]===right){ s++; fb.className="fb ok"; fb.textContent="Correct!"; } else { SL(`gs-v-${qi+1}`); fb.className="fb no"; fb.innerHTML=`Incorrect. <b>${VQ[qi][0]}</b> nghĩa là <b>${right}</b>.`; } });
+  st.vq=s; save(); document.getElementById("vscore").textContent=`Em đúng ${s}/${VQ.length} câu`; nextBtn(2).disabled=false;
+};
+
+/* ---------- PHẦN 3 ---------- */
+const tfEl=document.getElementById("tf"); const tfAns={};
+function drawTF(){
+  tfEl.innerHTML=""; for(const k in tfAns) delete tfAns[k];
+  TF.forEach(([s],qi)=>{ const q=document.createElement("div"); q.className="q";
+    q.innerHTML=`<div class="qt"><b>${qi+1}.</b> ${s}</div><div class="opts"></div><div class="fb"></div>`;
+    ["T","F"].forEach(o=>{ const b=document.createElement("button"); b.className="opt"; b.textContent=o;
+      b.onclick=()=>{ if(q.dataset.locked) return; tfAns[qi]=o; q.querySelectorAll(".opt").forEach(x=>x.classList.toggle("sel",x===b)); };
+      q.querySelector(".opts").appendChild(b); });
+    BamTu.boc(q.querySelector(".qt")); tfEl.appendChild(q); });
+  document.getElementById("tfscore").textContent=""; document.getElementById("tfredo").classList.add("hide"); document.getElementById("tfcheck").classList.remove("hide");
+}
+drawTF();
+document.getElementById("tfcheck").onclick=()=>{
+  if(Object.keys(tfAns).length<TF.length){ showTip("Em chọn T hoặc F cho cả 5 câu rồi mới chấm nhé!"); return; }
+  let s=0; [...tfEl.children].forEach((q,qi)=>{ const [,right,ln,why]=TF[qi]; q.dataset.locked=1;
+    q.querySelectorAll(".opt").forEach(b=>{ b.classList.remove("sel"); if(b.textContent===tfAns[qi]) b.classList.add(tfAns[qi]===right?"right":"wrong"); });
+    const fb=q.querySelector(".fb");
+    if(tfAns[qi]===right){ s++; fb.className="fb ok"; fb.innerHTML="Correct! "+why; }
+    else { SL(`gs-tf-${qi+1}`); fb.className="fb no"; fb.innerHTML=`Incorrect – Answer: <b>${right}</b>. ${why} <button class="btn ghost" style="padding:4px 10px;margin-left:4px">🔊 Nghe câu này</button>`;
+      fb.querySelector("button").onclick=()=>play(`line${String(ln).padStart(2,"0")}.mp3`); }
+    fb.appendChild(nutGiai(`giai-tf${qi+1}`)); });
+  st.tf=Math.max(st.tf||0,s); save();
+  document.getElementById("tfscore").textContent=`Em đúng ${s}/${TF.length} câu`;
+  document.getElementById("tfcheck").classList.add("hide"); if(s<TF.length) document.getElementById("tfredo").classList.remove("hide");
+  nextBtn(2).disabled=false;
+};
+document.getElementById("tfredo").onclick=drawTF;
+
+/* ---------- PHẦN 4: điền từ (bài 3 SGK) ---------- */
+const FWORDS = ["go","subjects","has","wear","uniforms"];
+const FILL = [
+ ["Students ___ their uniforms on Monday.", "wear", "<i>wear uniforms</i> = mặc đồng phục. <i>Students</i> là số nhiều nên <b>wear</b> giữ nguyên, không thêm -s."],
+ ["Vy ___ a new friend, Duy.", "has", "<i>Vy</i> là một bạn (số ít) → dùng <b>has</b>, không dùng <i>have</i>."],
+ ["– Do Phong, Vy, and Duy ___ to the same school?<span class='sub'>– Yes, they do.</span>", "go", "Câu hỏi bắt đầu bằng <i>Do</i> thì động từ giữ nguyên: <b>go</b>. <i>go to school</i> = đi học."],
+ ["Students always look smart in their ___.", "uniforms", "Sau <i>their</i> cần một danh từ. Nhiều học sinh nên dùng số nhiều: <b>uniforms</b>."],
+ ["– What ___ do you like to study?<span class='sub'>– I like to study English and history.</span>", "subjects", "Câu trả lời là <i>English and history</i> (các môn học) → hỏi <b>What subjects</b>."]
+];
+const fillEl=document.getElementById("fill"), fbox=document.getElementById("fbox"); let fOn=null, fLocked=false;
+function drawFill(){
+  fillEl.innerHTML=""; fbox.innerHTML=""; fLocked=false; fbox.style.position="";
+  FWORDS.forEach(w=>{ const c=document.createElement("button"); c.className="chip"; c.textContent=w; c.dataset.w=w;
+    c.onclick=()=>{ if(fLocked||c.classList.contains("used")) return; const g=fOn||fillEl.querySelector(".gap:not([data-v])"); if(!g) return; put(g,w); }; fbox.appendChild(c); });
+  FILL.forEach(([s],qi)=>{ const q=document.createElement("div"); q.className="q";
+    q.innerHTML=`<div class="qt"><b>${qi+1}.</b> ${s.replace("___",`<button class="gap" data-i="${qi}">&nbsp;</button>`)}</div><div class="fb"></div>`;
+    BamTu.boc(q.querySelector(".qt"));
+    const g=q.querySelector(".gap"); g.onclick=e=>{ e.stopPropagation(); if(fLocked) return; if(g.dataset.v){ clear(g); } sel(g); };
+    fillEl.appendChild(q); });
+  sel(fillEl.querySelector(".gap"));
+  document.getElementById("fscore").textContent=""; document.getElementById("fredo").classList.add("hide"); document.getElementById("fcheck").classList.remove("hide");
+}
+function sel(g){ fillEl.querySelectorAll(".gap").forEach(x=>x.classList.toggle("on",x===g)); fOn=g; }
+function put(g,w){ if(g.dataset.v) clear(g); g.dataset.v=w; g.textContent=w; fbox.querySelector(`[data-w="${w}"]`).classList.add("used");
+  sel(fillEl.querySelector(".gap:not([data-v])")); }
+function clear(g){ const w=g.dataset.v; delete g.dataset.v; g.innerHTML="&nbsp;"; const c=fbox.querySelector(`[data-w="${w}"]`); if(c) c.classList.remove("used"); }
+drawFill();
+document.getElementById("fcheck").onclick=()=>{
+  const gaps=[...fillEl.querySelectorAll(".gap")];
+  if(gaps.some(g=>!g.dataset.v)){ showTip("Em điền hết 5 chỗ trống rồi mới chấm nhé!"); return; }
+  fLocked=true; sel(null); fbox.style.position="static"; let s=0;
+  gaps.forEach((g,qi)=>{ const [,right,why]=FILL[qi], fb=g.closest(".q").querySelector(".fb"), ok=g.dataset.v===right;
+    g.classList.add(ok?"right":"wrong"); if(ok) s++; else SL(`gs-f-${qi+1}`);
+    fb.className="fb "+(ok?"ok":"no");
+    fb.innerHTML=(ok?"Correct! ":`Incorrect – Answer: <b>${right}</b>. `)+why+` <button class="btn ghost" style="padding:4px 10px;margin-left:4px">🔊 Nghe câu đúng</button>`;
+    fb.querySelector("button").onclick=()=>play(`fill${qi+1}.mp3`); fb.appendChild(nutGiai(`giai-fill${qi+1}`)); });
+  st.fb=Math.max(st.fb||0,s); save();
+  document.getElementById("fscore").textContent=`Em đúng ${s}/${FILL.length} câu`;
+  document.getElementById("fcheck").classList.add("hide"); if(s<FILL.length) document.getElementById("fredo").classList.remove("hide");
+  nextBtn(3).disabled=false;
+};
+document.getElementById("fredo").onclick=drawFill;
+
+/* ---------- PHẦN 5: ghép ảnh đồ dùng (bài 4 SGK) ---------- */
+const MWORDS = ["pencil sharpener","compass","school bag","calculator","rubber","pencil case"];   // thứ tự trong khung như SGK
+const MPICS = ["school bag","compass","pencil sharpener","rubber","pencil case","calculator"];    // ảnh 1–6
+const MVI = {"school bag":"cặp sách","compass":"com-pa","pencil sharpener":"gọt bút chì","rubber":"cục tẩy","pencil case":"hộp bút","calculator":"máy tính cầm tay"};
+const mEl=document.getElementById("match"), mbox=document.getElementById("mbox"); let mOn=null, mLocked=false;
+const slug=w=>w.replace(/ /g,"-");
+function drawMatch(){
+  mEl.innerHTML=""; mbox.innerHTML=""; mLocked=false; mbox.style.position="";
+  MWORDS.forEach(w=>{ const c=document.createElement("button"); c.className="chip"; c.textContent=w; c.dataset.w=w;
+    c.onclick=()=>{ if(mLocked||c.classList.contains("used")) return; const g=mOn||mEl.querySelector(".gap:not([data-v])"); if(!g) return; mPut(g,w); }; mbox.appendChild(c); });
+  MPICS.forEach((w,i)=>{ const c=document.createElement("div"); c.className="mc";
+    c.innerHTML=`<div class="im"><img src="anh/${slug(w)}.jpg" alt="Ảnh ${i+1}"><span class="so">${i+1}</span></div><button class="gap" data-i="${i}">&nbsp;</button><div class="acts hide"></div><div class="kq"></div>`;
+    const g=c.querySelector(".gap"); g.onclick=e=>{ e.stopPropagation(); if(mLocked) return; if(g.dataset.v) mClear(g); mSel(g); };
+    mEl.appendChild(c); });
+  mSel(mEl.querySelector(".gap"));
+  ["mredo","mrep"].forEach(id=>document.getElementById(id).classList.add("hide")); document.getElementById("mcheck").classList.remove("hide"); document.getElementById("mscore").textContent="";
+}
+function mSel(g){ mEl.querySelectorAll(".gap").forEach(x=>x.classList.toggle("on",x===g)); mOn=g; }
+function mPut(g,w){ if(g.dataset.v) mClear(g); g.dataset.v=w; g.textContent=w; mbox.querySelector(`[data-w="${w}"]`).classList.add("used"); mSel(mEl.querySelector(".gap:not([data-v])")); }
+function mClear(g){ const w=g.dataset.v; delete g.dataset.v; g.innerHTML="&nbsp;"; const c=mbox.querySelector(`[data-w="${w}"]`); if(c) c.classList.remove("used"); }
+drawMatch();
+document.getElementById("mcheck").onclick=()=>{
+  const gaps=[...mEl.querySelectorAll(".gap")];
+  if(gaps.some(g=>!g.dataset.v)){ showTip("Em ghép hết 6 ảnh rồi mới chấm nhé!"); return; }
+  mLocked=true; mSel(null); mbox.style.position="static"; let s=0;
+  gaps.forEach((g,i)=>{ const right=MPICS[i], ok=g.dataset.v===right, c=g.closest(".mc"), kq=c.querySelector(".kq"), acts=c.querySelector(".acts");
+    g.classList.add(ok?"right":"wrong"); if(ok) s++; else { g.textContent=right; SL(`gs-m-${i+1}`); }
+    kq.className="kq "+(ok?"ok":"no"); kq.innerHTML=(ok?"✓ Đúng – ":"✗ Đáp án đúng – ")+MVI[right];
+    acts.innerHTML=`<button>🔊 Nghe</button><button>🎤 Đọc theo</button>`; acts.classList.remove("hide");
+    const [nghe,doc]=acts.querySelectorAll("button");
+    nghe.onclick=()=>play(`cum/${slug(right)}.mp3`);
+    doc.onclick=e=>{ e.stopPropagation(); BamTu.luyen(right,doc,kq); };
+    acts.appendChild(nutGiai(`giai-match${i+1}`)); });
+  st.mt=Math.max(st.mt||0,s); save();
+  document.getElementById("mscore").textContent=`Em đúng ${s}/6`;
+  document.getElementById("mcheck").classList.add("hide"); if(s<6) document.getElementById("mredo").classList.remove("hide");
+  document.getElementById("mrep").classList.remove("hide");
+  nextBtn(4).disabled=false;
+};
+document.getElementById("mredo").onclick=drawMatch;
+let repOn=false;
+document.getElementById("mrep").onclick=async e=>{   // Listen and repeat: nghe từng từ, nghỉ để em đọc theo
+  const b=e.currentTarget; if(repOn){ repOn=false; player.pause(); b.textContent="▶ Nghe và đọc theo cả 6 từ"; return; }
+  repOn=true; b.textContent="⏸ Dừng";
+  const cards=[...mEl.querySelectorAll(".mc")];
+  for(let i=0;i<MPICS.length&&repOn;i++){ cards[i].style.outline="3px solid #ffd75e"; await play(`cum/${slug(MPICS[i])}.mp3`); await new Promise(r=>setTimeout(r,2200)); cards[i].style.outline=""; }
+  repOn=false; b.textContent="▶ Nghe và đọc theo cả 6 từ";
+};
+
+/* ---------- PHẦN 6: kể tên đồ vật (bài 5 SGK) ---------- */
+const DD = {"book":"quyển sách","notebook":"quyển vở","textbook":"sách giáo khoa","pen":"bút bi / bút mực","pencil":"bút chì","ruler":"thước kẻ","rubber":"cục tẩy","eraser":"cục tẩy",
+ "pencil case":"hộp bút","pencil sharpener":"gọt bút chì","sharpener":"gọt bút chì","school bag":"cặp sách","schoolbag":"cặp sách","bag":"cái cặp, cái túi","backpack":"ba lô","compass":"com-pa",
+ "calculator":"máy tính cầm tay","desk":"bàn học","chair":"ghế","table":"cái bàn","board":"cái bảng","whiteboard":"bảng trắng","blackboard":"bảng đen","chalk":"phấn","marker":"bút dạ",
+ "crayon":"bút sáp màu","colour pencil":"bút chì màu","coloured pencils":"bút chì màu","glue":"keo dán","glue stick":"keo khô","scissors":"cái kéo","map":"bản đồ","clock":"đồng hồ treo tường",
+ "window":"cửa sổ","door":"cửa ra vào","lamp":"đèn bàn","light":"đèn","fan":"quạt","computer":"máy tính","laptop":"máy tính xách tay","dictionary":"từ điển","paper":"giấy","uniform":"đồng phục",
+ "water bottle":"bình nước","bottle":"cái chai","picture":"bức tranh","poster":"áp phích","bookshelf":"giá sách","shelf":"kệ, giá","bin":"thùng rác","globe":"quả địa cầu","highlighter":"bút dạ quang",
+ "tape":"băng dính","stapler":"cái dập ghim","folder":"bìa đựng tài liệu","calendar":"lịch","television":"ti vi","tv":"ti vi","phone":"điện thoại","tablet":"máy tính bảng","notebook computer":"máy tính xách tay",
+ "set square":"thước ê-ke","protractor":"thước đo góc","dictionary book":"từ điển","clip":"cái kẹp","pin":"cái ghim","speaker":"loa","projector":"máy chiếu","bed":"giường","cupboard":"tủ","wardrobe":"tủ quần áo","mirror":"gương","curtain":"rèm cửa","cushion":"gối tựa","plant":"chậu cây","flower":"hoa"};
+const PL = {"scissors":"scissors","coloured pencils":"coloured pencils"};
+function goc6(s){ s=s.toLowerCase().trim().replace(/[^a-z ]/g,"").replace(/\s+/g," ").replace(/^(a|an|the|some|my|two|three|four|five)\s+/,"");
+  if(DD[s]) return s;
+  for(const t of [s.replace(/ies$/,"y"),s.replace(/es$/,""),s.replace(/s$/,"")]) if(DD[t]) return t;
+  return null; }
+function gan(s){ // gợi ý từ gần đúng (sai chính tả 1–2 chữ)
+  s=s.toLowerCase().trim().replace(/^(a|an|the)\s+/,"");
+  const d=(a,b)=>{ const m=[...Array(b.length+1).keys()]; for(let i=1;i<=a.length;i++){ let p=m[0]; m[0]=i; for(let j=1;j<=b.length;j++){ const t=m[j]; m[j]=Math.min(m[j]+1,m[j-1]+1,p+(a[i-1]===b[j-1]?0:1)); p=t; } } return m[b.length]; };
+  return Object.keys(DD).map(k=>[k,d(s,k)]).filter(x=>x[1]<=(s.length>5?2:1)).sort((a,b)=>a[1]-b[1]).slice(0,3).map(x=>x[0]); }
+const kin=document.getElementById("kin"), kmsg=document.getElementById("kmsg"), klist=document.getElementById("klist");
+function drawK(){
+  klist.innerHTML=""; (st.kt||[]).forEach(w=>{ const it=document.createElement("div"); it.className="kitem";
+    it.innerHTML=`<span>${w}</span><i>– ${DD[w]}</i><button title="Nghe">🔊</button>`; it.querySelector("button").onclick=()=>BamTu.doc(w); klist.appendChild(it); });
+  const n=(st.kt||[]).length; document.getElementById("kscore").textContent = n? `Em đã viết ${n} đồ vật${n>=5?" – giỏi lắm!":" – em viết thêm được không?"}` : "";
+}
+function themK(raw){   // gõ một hay nhiều đồ vật (cách nhau bằng dấu phẩy, "and", xuống dòng)
+  const ds=(raw??kin.value).split(/[,;\n]|\band\b/i).map(x=>x.trim()).filter(Boolean); if(!ds.length) return;
+  st.kt=st.kt||[]; const ok=[], trung=[], sai=[];
+  ds.forEach(s=>{ const g=goc6(s);
+    if(!g) sai.push(s); else if(st.kt.includes(g)) trung.push(g); else { st.kt.push(g); ok.push(g); } });
+  save(); drawK();
+  let h="";
+  if(ok.length) h+=ok.map(g=>`✓ <b>${g}</b> – ${DD[g]}`).join("<br>");
+  if(trung.length) h+=(h?"<br>":"")+`Em đã viết ${trung.map(g=>`"${g}"`).join(", ")} rồi.`;
+  sai.forEach(s=>{ const gy=gan(s);
+    h+=(h?"<br>":"")+(gy.length ? `Cô chưa nhận ra "<b>${s}</b>". Có phải em muốn viết: ${gy.map(x=>`<button data-g="${x}">${x}</button>`).join(" ")} ?`
+      : `Cô chưa nhận ra "<b>${s}</b>". Em kiểm tra lại chính tả nhé.`); });
+  kmsg.className="kmsg "+(sai.length||!ok.length?"no":"ok"); kmsg.innerHTML=h;
+  kmsg.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>themK(b.dataset.g));
+  if(ok.length===1) BamTu.doc(ok[0]);
+  kin.value = sai.join(", "); kin.focus();
+}
+document.getElementById("kadd").onclick=()=>themK();
+kin.addEventListener("keydown",e=>{ if(e.key==="Enter") themK(); });
+drawK();
+
+/* ---------- PHẦN 7: luyện nói ---------- */
+const SR = window.SpeechRecognition||window.webkitSpeechRecognition;
+let srBroken = !SR;   // máy không chấm được giọng nói → chuyển sang ghi âm, tự nghe lại
+const NAMES_RX=/\b(vy|duy|phong)\b/g;
+const norm = s=>s.toLowerCase().replace(NAMES_RX," ").replace(/[^a-z' ]/g," ").split(/\s+/).filter(Boolean);
+function match(target, heard){ const t=norm(target), h=new Set(norm(heard)); return t.length?Math.round(100*t.filter(w=>h.has(w)).length/t.length):100; }
+const speakEl=document.getElementById("speak"); let role=null, spScores={};
+const rolesEl=document.getElementById("roles");
+["Phong","Vy","Duy"].forEach(r=>{ const b=document.createElement("button"); b.className="opt"; b.innerHTML=`<span class="who ${r}">${r}</span>`;
+  b.onclick=()=>{ role=r; spScores={}; rolesEl.querySelectorAll(".opt").forEach(x=>x.classList.toggle("sel",x===b)); runRole(); }; rolesEl.appendChild(b); });
+const plain = t=>t.replace(/[{}]/g,"");
+const lineFile = i=>`line${String(i+1).padStart(2,"0")}.mp3`;
+let runId=0;
+async function runRole(){
+  const my=++runId; speakEl.innerHTML="";
+  for(let i=0;i<LINES.length;i++){
+    if(my!==runId) return;
+    const [who,txt]=LINES[i]; const d=document.createElement("div"); d.className="line";
+    d.innerHTML=`<div class="who ${who}">${who}:</div><div class="say">${plain(txt)}</div>`; BamTu.boc(d.querySelector(".say")); speakEl.appendChild(d);
+    d.scrollIntoView({block:"center",behavior:"smooth"});
+    if(who!==role){ d.classList.add("playing"); await play(lineFile(i)); d.classList.remove("playing"); await new Promise(r=>setTimeout(r,250)); continue; }
+    d.classList.add("playing"); await myTurn(d,i,plain(txt)); d.classList.remove("playing");
+  }
+  if(my!==runId) return;
+  const v=Object.values(spScores);
+  st.spDone=true;
+  if(v.length){ const avg=Math.round(v.reduce((a,b)=>a+b,0)/v.length); st.sp=Math.max(st.sp||0,avg); }
+  save();
+  const e=document.createElement("div"); e.className="score";
+  e.textContent = v.length? `Em đọc khớp trung bình ${Math.round(v.reduce((a,b)=>a+b,0)/v.length)}%. Giỏi lắm!` : "Em đã luyện xong vai của mình. Giỏi lắm!";
+  speakEl.appendChild(e); nextBtn(6).disabled=false;
+}
+function myTurn(d,i,txt){
+  return new Promise(done=>{
+    const box=document.createElement("div"); box.style.margin="4px 0 10px 0";
+    box.innerHTML=`<div class="row"><button class="btn mic"></button><button class="btn ghost">🔊 Nghe mẫu</button><button class="btn ghost">Sang câu sau →</button></div><div class="heard"></div>`;
+    d.after(box);
+    const [mic,ex,nx]=box.querySelectorAll("button"), heard=box.querySelector(".heard");
+    ex.onclick=()=>play(lineFile(i));
+    nx.onclick=()=>{ box.remove(); done(); };
+    srBroken ? recMode() : srMode();
+
+    // Cách 1: máy nghe và chấm điểm (Chrome, có mạng, trang mở qua https/localhost)
+    function srMode(){
+      mic.textContent="🎤 Bấm rồi đọc – máy chấm";
+      mic.onclick=()=>{
+        const r=new SR(); r.lang="en-US"; r.maxAlternatives=3; mic.disabled=true; mic.textContent="🎙 Đang nghe… em đọc đi";
+        let got=false;
+        r.onresult=e=>{ got=true; const alts=[...e.results[0]].map(a=>a.transcript); const sc=Math.max(...alts.map(a=>match(txt,a)));
+          heard.innerHTML=`Máy nghe được: “${alts[0]}” – khớp <b>${sc}%</b>`;
+          if(sc>=60){ spScores[i]=sc; heard.style.color="var(--ok)"; heard.innerHTML+=" – tốt lắm!"; setTimeout(()=>{ box.remove(); done(); },1500); }
+          else { heard.style.color="var(--bad)"; heard.innerHTML+=" – em nghe mẫu rồi đọc lại nhé."; } };
+        r.onerror=e=>{ got=true;
+          if(["not-allowed","service-not-allowed","network","audio-capture"].includes(e.error)){
+            srBroken=true; heard.style.color="var(--mute)";
+            heard.textContent="Máy này chưa chấm được giọng nói. Em ghi âm giọng mình rồi tự nghe lại, so với giọng mẫu nhé.";
+            recMode();
+          } else { heard.style.color="var(--bad)"; heard.textContent="Máy chưa nghe thấy tiếng em. Em bấm lại và đọc to, rõ hơn nhé."; } };
+        r.onend=()=>{ mic.disabled=false; if(!srBroken) mic.textContent="🎤 Đọc lại"; if(!got){ heard.style.color="var(--bad)"; heard.textContent="Máy chưa nghe thấy tiếng em. Em bấm lại và đọc to hơn nhé."; } };
+        try{ r.start(); }catch(err){ srBroken=true; recMode(); }
+      };
+    }
+    // Cách 2: ghi âm giọng em rồi phát lại để em tự so với giọng mẫu
+    function recMode(){
+      mic.disabled=false; mic.textContent="⏺ Ghi âm giọng em";
+      let rec=null, url=null, stream=null;
+      mic.onclick=async()=>{
+        if(rec && rec.state==="recording"){ rec.stop(); return; }
+        try{ stream = stream || await navigator.mediaDevices.getUserMedia({audio:true}); }
+        catch(err){ heard.style.color="var(--bad)"; heard.innerHTML="Máy chưa cho dùng micro. Em bấm vào biểu tượng ổ khoá cạnh địa chỉ web → cho phép <b>Micro</b>, rồi thử lại. Không được thì em đọc to theo câu mẫu rồi bấm <b>Sang câu sau</b>."; return; }
+        const chunks=[]; rec=new MediaRecorder(stream);
+        rec.ondataavailable=e=>chunks.push(e.data);
+        rec.onstop=()=>{ if(url) URL.revokeObjectURL(url); url=URL.createObjectURL(new Blob(chunks,{type:rec.mimeType}));
+          mic.textContent="⏺ Ghi âm lại"; mic.classList.add("mic");
+          heard.style.color="var(--ink)";
+          heard.innerHTML=`<button class="btn ghost" style="padding:6px 12px">▶ Nghe lại giọng em</button> Em so với giọng mẫu: đã giống chưa? Chưa giống thì ghi âm lại nhé.`;
+          const pb=heard.querySelector("button"); pb.onclick=()=>{ player.pause(); new Audio(url).play(); }; pb.click(); };
+        rec.start(); mic.textContent="⏹ Đọc xong – bấm để dừng"; heard.style.color="var(--mute)"; heard.textContent="Đang ghi âm… em đọc to câu của mình.";
+      };
+    }
+  });
+}
+
+/* ---------- KẾT QUẢ ---------- */
+function drawSummary(){
+  const vq=st.vq??0, tf=st.tf??0, fb=st.fb??0, mt=st.mt??0, kn=(st.kt||[]).length, sp=st.sp;
+  const parts=[vq/5*100, tf/5*100, fb/5*100, mt/6*100, Math.min(kn,5)/5*100]; if(sp!=null) parts.push(sp);
+  const pct=Math.round(parts.reduce((a,b)=>a+b,0)/parts.length);
+  document.getElementById("total").textContent=pct+" điểm";
+  document.getElementById("sum").innerHTML=
+   `<div><span>1. Nghe &amp; đọc</span><b>${st.done[1]?"Đã hoàn thành":"—"}</b></div>
+    <div><span>1. Từ vựng</span><b>${vq}/5</b></div>
+    <div><span>2. True / False</span><b>${tf}/5</b></div>
+    <div><span>3. Điền từ</span><b>${fb}/5</b></div>
+    <div><span>4. Đồ dùng học tập</span><b>${mt}/6</b></div>
+    <div><span>5. Kể tên đồ vật</span><b>${kn} đồ vật</b></div>
+    <div><span>6. Luyện nói</span><b>${sp!=null? sp+"%" : (st.spDone?"Đã luyện":"—")}</b></div>`;
+}
+document.getElementById("restart").onclick=()=>{ st={done:{},vq:null,tf:null,fb:null,mt:null,kt:[],sp:null,spDone:false}; save(); location.reload(); };
+
+go(1);
+</script>
+</body>
+</html>

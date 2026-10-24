@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unit 1 – Skills 2 · Tiếng Anh 6</title>
+<style>
+:root{--bg:#f4f7fb;--card:#fff;--ink:#1d2433;--mute:#667085;--pri:#1f6feb;--pri2:#e8f0fe;--ok:#12805c;--okbg:#e6f6ef;--bad:#c4321a;--badbg:#fdecea;--line:#dfe5ee;
+ --phong:#1f6feb;--vy:#c2185b;--duy:#e07b00}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:#123a7a;color:#fff;padding:14px 16px}
+header .t1{font-size:13px;opacity:.85;letter-spacing:.03em}
+header .t2{font-size:21px;font-weight:700}
+.steps{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.steps button{flex:0 0 auto;border:1px solid var(--line);background:#fff;border-radius:20px;padding:6px 12px;font:inherit;font-size:14px;color:var(--mute);cursor:pointer}
+.steps button.on{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}
+.steps button.done{border-color:var(--ok);color:var(--ok)}
+.steps button.done::before{content:"✓ "}
+.steps button:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--card);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(16,24,40,.08);margin-bottom:14px}
+h2{margin:0 0 4px;font-size:20px}
+.task{color:var(--mute);font-size:15px;margin:0 0 14px}
+.btn{border:0;background:var(--pri);color:#fff;border-radius:10px;padding:11px 18px;font:inherit;font-weight:600;cursor:pointer}
+.btn.ghost{background:var(--pri2);color:var(--pri)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.next{display:flex;justify-content:flex-end;margin-top:6px}
+.knock{font-style:italic;color:var(--mute);margin:6px 0 10px}
+.line{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:10px;cursor:pointer}
+.line:hover{background:#f6f8fc}
+.line.playing{background:#fff6d6}
+.who{flex:0 0 58px;font-weight:700}
+.who.Phong{color:var(--phong)}.who.Vy{color:var(--vy)}.who.Duy{color:var(--duy)}
+.say{flex:1}
+.w{border-bottom:2px dotted var(--pri);color:var(--pri);cursor:help}
+.tip{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#1d2433;color:#fff;padding:10px 16px;border-radius:12px;font-size:16px;opacity:0;pointer-events:none;transition:.2s;max-width:90vw;z-index:9}
+.tip.show{opacity:1}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.vc{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;cursor:pointer;background:#fff}
+.vc:hover{border-color:var(--pri)}
+.vc .play{flex:0 0 38px;height:38px;border-radius:50%;background:var(--pri2);display:grid;place-items:center;font-size:16px}
+.vc b{display:block;font-size:18px}
+.vc .ipa{color:var(--mute);font-size:14px}
+.vc .vn{font-size:15px}
+.note{background:#f6f8fc;border-left:4px solid var(--pri);border-radius:8px;padding:10px 14px;margin-top:14px;font-size:15.5px}
+.note p{margin:4px 0}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.q .qt{margin-bottom:8px}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opt{border:2px solid var(--line);background:#fff;border-radius:10px;padding:8px 16px;font:inherit;cursor:pointer;min-width:58px}
+.opt.sel{border-color:var(--pri);background:var(--pri2)}
+.opt.right{border-color:var(--ok);background:var(--okbg)}
+.opt.wrong{border-color:var(--bad);background:var(--badbg)}
+.fb{margin-top:8px;font-size:15px;border-radius:8px;padding:8px 10px;display:none}
+.fb.ok{display:block;background:var(--okbg);color:var(--ok)}
+.fb.no{display:block;background:var(--badbg);color:var(--bad)}
+.fb q{font-style:italic;quotes:"“" "”"}
+.score{font-size:18px;font-weight:700;margin:6px 0 12px}
+.roles{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.mic{background:var(--bad)}
+.heard{font-size:15px;color:var(--mute);margin-top:4px}
+.big{font-size:44px;font-weight:800;color:var(--pri);margin:4px 0}
+.sum div{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:8px 0}
+.hide{display:none}
+@media (max-width:480px){body{font-size:16px}.who{flex-basis:50px}}
+.box{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:2px dashed var(--pri);border-radius:12px;margin-bottom:14px;position:sticky;top:58px;background:#fff;z-index:3}
+.chip{border:0;background:var(--pri2);color:var(--pri);font:inherit;font-weight:700;padding:8px 16px;border-radius:999px;cursor:pointer}
+.chip.used{opacity:.3;cursor:default}
+.gap{display:inline-block;min-width:96px;border:0;border-bottom:2px solid var(--mute);background:#f6f8fc;font:inherit;font-weight:700;color:var(--pri);padding:2px 8px;margin:0 3px;border-radius:6px 6px 0 0;cursor:pointer;text-align:center}
+.gap.on{outline:3px solid #ffd75e;background:#fff8dc}
+.gap.right{color:var(--ok);border-color:var(--ok);background:var(--okbg)}
+.gap.wrong{color:var(--bad);border-color:var(--bad);background:var(--badbg)}
+.fill .q .qt{line-height:2.1}
+.sub{display:block;margin-top:2px}
+.giang{background:linear-gradient(135deg,#fff7e0,#fff);border:1px solid #f3d37a;border-radius:14px;padding:12px 14px;margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+.giang .gh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.giang .gt{font-weight:700;color:#8a5a00}
+.giang .btn{padding:8px 14px}
+.giang .gx{font-size:15.5px;line-height:1.6;color:#3b3220;display:none}
+.giang.mo .gx{display:block}
+.giang .gx i{color:var(--pri);font-weight:600}
+.giai{display:inline-flex;align-items:center;gap:4px;border:0;border-radius:8px;padding:4px 10px;margin:4px 6px 0 0;background:#fff3cd;color:#8a5a00;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:560px){.mgrid{grid-template-columns:repeat(2,1fr)}}
+.mc{border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;align-items:center;background:#fff}
+.mc .im{position:relative;width:100%;aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#f2f4f8}
+.mc img{width:100%;height:100%;object-fit:contain}
+.mc .so{position:absolute;left:6px;top:6px;background:var(--pri);color:#fff;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-weight:700;font-size:14px}
+.mc .gap{width:100%;min-width:0;margin:0}
+.mc .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.mc .acts button{border:0;border-radius:8px;padding:5px 9px;background:var(--pri2);color:var(--pri);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.mc .kq{font-size:13px;min-height:0;text-align:center}
+.mc .kq.ok{color:var(--ok)}.mc .kq.no{color:var(--bad)}
+.ktin{display:flex;gap:8px}
+.ktin input{flex:1;min-width:0;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:10px}
+.ktin input:focus{outline:none;border-color:var(--pri)}
+.klist{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.kitem{display:flex;align-items:center;gap:6px;background:var(--okbg);color:var(--ok);border-radius:999px;padding:6px 8px 6px 12px;font-weight:600}
+.kitem i{font-style:normal;font-weight:400;color:#2d5a47;font-size:14px}
+.kitem button{border:0;background:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer}
+.kmsg{margin-top:8px;font-size:15px;border-radius:8px;padding:8px 10px;display:none}
+.kmsg.no{display:block;background:var(--badbg);color:var(--bad)}
+.kmsg.ok{display:block;background:var(--okbg);color:var(--ok)}
+.kmsg button{border:0;background:#fff;color:var(--pri);font:inherit;font-weight:700;border-radius:8px;padding:2px 8px;margin:0 2px;cursor:pointer}
+.lplay{flex:0 0 32px;height:32px;border:0;border-radius:50%;background:var(--pri2);cursor:pointer;font-size:14px}
+.line{cursor:default}
+
+/* Điện thoại: tên nhân vật một dòng, lời thoại chạy ngang hết khung (Sếp dặn 20/10/2026) */
+@media (max-width:600px){.line{flex-wrap:wrap;row-gap:2px}.line .who{flex:1 1 auto;min-width:0;align-self:center}.line .say{flex:1 1 100%;min-width:0}}
+</style>
+<link rel="stylesheet" href="../../../chung/bam-tu.css?v=202610240914">
+</head>
+<body>
+<style>
+.sub-card{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px;background:#fff}
+.sub-card h3{margin:0 0 6px;font-size:18px}
+.mini{border:0;border-radius:8px;padding:6px 10px;background:var(--pri2);color:var(--pri);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.memo{background:#fff8dc;border:1px dashed #e0b400;border-radius:10px;padding:8px 12px;margin:8px 0;font-size:15px}
+.cho{text-align:center;padding:24px 12px;border:2px dashed var(--line);border-radius:14px;color:var(--mute)}
+.cho .ic{font-size:48px}
+.kq-row{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px;background:#fff}
+.kq-row .hoi{font-weight:700;color:#123a7a}
+.kq-row .khung{margin:8px 0;font-size:18px;line-height:2.2}
+.kq-row input{font:inherit;padding:4px 8px;border:0;border-bottom:2px solid var(--pri);background:#f6f8fc;border-radius:6px 6px 0 0;min-width:160px;max-width:100%}
+.kq-row .vd{color:var(--mute);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.chips .chip{font-size:14px;padding:5px 10px}
+.kq-row .fb{display:none}
+textarea.van{width:100%;min-height:200px;font:inherit;font-size:18px;line-height:1.7;padding:12px;border:2px solid var(--line);border-radius:12px}
+.dem{font-weight:700;margin:6px 0}.dem.ok{color:var(--ok)}.dem.no{color:var(--bad)}
+.ck{list-style:none;padding:0;margin:8px 0}.ck li{padding:3px 0}
+.ck li::before{content:"⬜ "}.ck li.ok::before{content:"✅ "}
+.mau{background:#e8f0fe;border-radius:12px;padding:12px;font-size:18px;line-height:1.7;color:#123a7a}
+.drill{display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding:8px 0}
+.drill .n{font-weight:700;width:22px}.drill .opts{display:flex;gap:6px;flex-wrap:wrap}
+.drill .fbx{font-size:14px;flex-basis:100%}.fbx.ok{color:var(--ok)}.fbx.no{color:var(--bad)}
+</style>
+
+<header>
+  <a href="../../../index.html" style="float:right;color:#fff;text-decoration:none;font-size:14px">🏠 Trang chủ</a><div class="t1">TIẾNG ANH 6 · GLOBAL SUCCESS · UNIT 1: MY NEW SCHOOL</div>
+  <div class="t2">Skills 2 – Nghe &amp; Viết</div>
+</header>
+<nav class="steps" id="steps"></nav>
+<main>
+
+<!-- PHẦN 1: NGHE – chờ file -->
+<section class="part" data-p="1">
+ <div class="card">
+  <h2>Phần 1. Nghe: Janet nói về trường Palmer</h2>
+  <div class="cho"><div class="ic">🎧</div><b>Phần nghe đang được cô chuẩn bị.</b><br>Em làm phần Viết trước nhé, khi có bài nghe cô sẽ báo.</div>
+ </div>
+ <div class="next"><button class="btn" data-done="1">Sang phần Viết →</button></div>
+</section>
+
+<!-- PHẦN 2: bài 3 – chuẩn bị ý -->
+<section class="part hide" data-p="2">
+ <div class="card">
+  <h2>Phần 2. Chuẩn bị ý: trả lời 5 câu hỏi về trường em</h2>
+  <p class="task"><i>Bài 3 SGK: Write the answers to the following questions about your school.</i><br>Điền thông tin về trường của em vào khung câu. Bấm vào gợi ý để chèn nhanh.</p>
+  <div class="row"><button class="btn ghost" data-giai="giai-khung">👩‍🏫 Nghe cô giảng 5 khung câu</button></div>
+  <div id="ks" style="margin-top:10px"></div>
+  <div class="sub-card"><h3>Làm thử: chọn từ đúng</h3><div id="lt"></div></div>
+ </div>
+ <div class="next"><button class="btn" data-done="2">Sang Phần 3 – Viết đoạn văn →</button></div>
+</section>
+
+<!-- PHẦN 3: bài 4 – viết đoạn văn -->
+<section class="part hide" data-p="3">
+ <div class="card">
+  <h2>Phần 3. Viết đoạn văn về trường em (40–50 từ)</h2>
+  <p class="task"><i>Bài 4 SGK: Use the answers in 3 to write a paragraph of 40–50 words about your school. You can refer to the reading passages to help you.</i></p>
+  <div class="memo">✍️ Máy đã ghép 5 câu trả lời của em thành bản nháp. Em sửa cho hay hơn: thêm từ nối <b>and, also, because</b>; thêm câu <b>There is / There are…</b> để tả trường.</div>
+  <div class="row"><button class="mini" id="ghep">↻ Ghép lại từ Phần 2</button><button class="mini" id="chep">📋 Chép đoạn văn</button></div>
+  <textarea class="van" id="van" spellcheck="false" placeholder="My school is ..."></textarea>
+  <div class="dem" id="dem"></div>
+  <ul class="ck" id="ck"></ul>
+  <div class="row"><button class="btn" id="xem">👩‍🏫 Cô xem giúp</button><button class="btn ghost" id="moMau">📖 Xem bài mẫu</button></div>
+  <div class="fb" id="gy"></div>
+  <div class="sub-card hide" id="mauBox"><h3>Bài mẫu (49 từ) <button class="mini" data-cau="mau">🔊 Nghe</button></h3><div class="mau" id="mau"></div>
+   <p class="mute" style="margin:6px 0 0">Đoạn văn có: tên trường · nơi chốn · số lớp · hoạt động · điều em thích + lý do.</p></div>
+ </div>
+ <div class="next"><button class="btn" data-done="3">Xem kết quả →</button></div>
+</section>
+
+<section class="part hide" data-p="4">
+ <div class="card" style="text-align:center"><h2>Em đã viết xong đoạn văn!</h2><div class="big" id="total"></div></div>
+ <div class="card sum" id="sum"></div>
+ <div class="row" style="justify-content:center"><button class="btn ghost" id="restart">Học lại từ đầu</button></div>
+</section>
+</main>
+<div class="tip" id="tip"></div>
+
+<script src="../../../chung/hoc-tap.js?v=202610240914"></script>
+<script src="the-tu.js?v=202610240914"></script>
+<script src="loi-giang.js?v=202610240914"></script>
+<script src="../../../chung/bam-tu.js?v=202610240914"></script>
+<script>
+const A="audio/", KEY="u6-1-sk2-v1";
+const SL=id=>{ try{ window.SoLoi&&SoLoi.ghi(id); }catch(e){} };   // làm sai → ghi vào Sổ lỗi sai
+let st={done:{},tl:{}};
+try{ st=Object.assign(st, JSON.parse(localStorage.getItem(KEY)||"{}")); }catch(e){}
+const save=()=>{ try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
+const player=new Audio(); window.player=player; let playDone=null;
+function play(src){ if(playDone) playDone(); return new Promise(res=>{ playDone=res; player.pause(); player.src=A+src; player.onended=res; player.onerror=res; player.play().catch(res); }); }
+const tip=document.getElementById("tip"); let tipT;
+function showTip(h){ tip.innerHTML=h; tip.classList.add("show"); clearTimeout(tipT); tipT=setTimeout(()=>tip.classList.remove("show"),2600); }
+document.addEventListener("click",e=>{ const g=e.target.closest("[data-giai]"); if(g) play(`giang/${g.dataset.giai}.mp3`); const c=e.target.closest("[data-cau]"); if(c) play(c.dataset.cau+".mp3"); });
+
+const NAMES=["1. Nghe (sắp có)","2. Chuẩn bị ý","3. Viết đoạn văn","Kết quả"], LAST=4;
+const stepsEl=document.getElementById("steps"); let cur=1;
+const unlocked=p=>true;   // Sếp dặn: không cần làm xong vẫn được qua phần khác
+function drawSteps(){ stepsEl.innerHTML=""; NAMES.forEach((n,i)=>{ const p=i+1,b=document.createElement("button"); b.textContent=n;
+  if(p===cur) b.className="on"; else if(st.done[p]) b.className="done"; b.disabled=!unlocked(p); b.onclick=()=>go(p); stepsEl.appendChild(b); }); }
+function go(p){ cur=p; player.pause(); document.querySelectorAll(".part").forEach(s=>s.classList.toggle("hide",+s.dataset.p!==p)); drawSteps(); if(p===3&&!van.value.trim()) ghep(); if(p===LAST) drawSummary(); scrollTo(0,0); }
+document.querySelectorAll("[data-done]").forEach(b=>b.onclick=()=>{ const p=+b.dataset.done; st.done[p]=true; save(); go(p+1); });
+
+const LG=window.LOIGIANG||{giang:{},giai:{}}; let giangDang=null;
+document.querySelectorAll(".part").forEach(sec=>{ const k="p"+sec.dataset.p; if(!LG.giang[k]) return;
+  const g=document.createElement("div"); g.className="giang";
+  g.innerHTML=`<div class="gh"><span class="gt">👩‍🏫 Lời giảng của cô</span><button class="btn">▶ Nghe cô giảng</button><button class="btn ghost">Xem lời giảng</button></div><div class="gx">${LG.giang[k]}</div>`;
+  const [nghe,xem]=g.querySelectorAll("button");
+  nghe.onclick=async()=>{ if(giangDang===nghe){ player.pause(); giangDang=null; nghe.textContent="▶ Nghe cô giảng"; return; }
+    if(giangDang) giangDang.textContent="▶ Nghe cô giảng"; giangDang=nghe; nghe.textContent="⏸ Dừng"; await play(`giang/${k}.mp3`); if(giangDang===nghe){ giangDang=null; nghe.textContent="▶ Nghe cô giảng"; } };
+  xem.onclick=()=>{ g.classList.toggle("mo"); xem.textContent=g.classList.contains("mo")?"Ẩn lời giảng":"Xem lời giảng"; };
+  g.querySelectorAll(".gx i").forEach(BamTu.boc);
+  const card=sec.querySelector(".card"); card.insertBefore(g, card.querySelector("h2").nextSibling); });
+
+/* ---------- PHẦN 2: khung câu ---------- */
+const KS=[{h:"1. What is the name of your school?",t:["My school is ","."],vd:"Hoa Sen Lower Secondary School",g:["Lower Secondary School"]},
+ {h:"2. Where is your school?",t:["It is in ","."],vd:"Ha Noi / Le Loi Street / Bac Ninh",g:[]},
+ {h:"3. How many classes does your school have?",t:["It has "," classes."],vd:"twenty / 20",g:["ten","fifteen","twenty","twenty-five","thirty"]},
+ {h:"4. What do students do at your school?",t:["Students ","."],vd:"study many subjects, and they play sports at break time",g:["study many subjects","play sports at break time","join interesting clubs","read books in the library","do exercise every morning"]},
+ {h:"5. What do you like about your school?",t:["I like "," because ","."],vd:"my school · my teachers and friends are very kind",g:["my school","my teachers","my friends","the library","the school garden","they are very kind","it is big and beautiful","I can learn a lot"]}];
+const ks=document.getElementById("ks"); st.tl=st.tl||{};
+KS.forEach((k,i)=>{ const d=document.createElement("div"); d.className="kq-row";
+  const o=k.t.map((x,j)=>j<k.t.length-1?`${x}<input data-i="${i}" data-j="${j}" autocomplete="off" spellcheck="false">`:x).join("");
+  d.innerHTML=`<div class="hoi"><span class="qs">${k.h}</span> <button class="mini" data-cau="k-${i+1}">🔊 Câu mẫu</button></div><div class="khung">${o}</div><div class="vd">Ví dụ: ${k.vd}</div>${k.g.length?`<div class="chips">${k.g.map(x=>`<button class="chip">${x}</button>`).join("")}</div>`:""}`;
+  BamTu.boc(d.querySelector(".qs"));
+  const ins=[...d.querySelectorAll("input")]; ins.forEach(x=>{ x.value=(st.tl[i]||[])[+x.dataset.j]||""; x.oninput=()=>{ st.tl[i]=ins.map(y=>y.value); save(); }; x.onfocus=()=>d.dataset.f=x.dataset.j; });
+  d.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ const x=ins[+(d.dataset.f||0)]||ins[0]; x.value=x.value.trim()?x.value.trim()+(i===3?", and they ":" and ")+c.textContent:c.textContent; x.dispatchEvent(new Event("input")); x.focus(); });
+  ks.appendChild(d); });
+function cacCau(){ return KS.map((k,i)=>{ const v=(st.tl[i]||[]).map(s=>(s||"").trim()); if(!v.some(Boolean)) return ""; return k.t.map((x,j)=>x+(j<k.t.length-1?(v[j]||"…"):"")).join(""); }).filter(Boolean); }
+// làm thử
+const LT=[["My school ___ twenty classes.",["have","has"],"has","<b>My school</b> là một (= it) → <b>has</b>."],
+ ["___ in Ha Noi.",["It is","It has","It"],"It is","Nói nơi chốn: <b>It is in</b> + nơi."],
+ ["I like my school ___ my friends are kind.",["because","but","so"],"because","Nói lý do dùng <b>because</b> (vì)."],
+ ["Students ___ sports at break time.",["plays","play"],"play","<b>Students</b> là số nhiều → động từ giữ nguyên <b>play</b>."]];
+LT.forEach(([s,o,r,w],i)=>{ const q=document.createElement("div"); q.className="drill"; q.innerHTML=`<span class="n">${i+1}.</span><span class="qs">${s.replace("___","<b>____</b>")}</span><div class="opts"></div><div class="fbx"></div>`;
+  o.forEach(x=>{ const b=document.createElement("button"); b.className="opt"; b.textContent=x; b.onclick=()=>{ if(q.dataset.d) return; q.dataset.d=1; const ok=x===r; b.classList.add(ok?"right":"wrong");
+    if(!ok){ [...q.querySelectorAll(".opt")].find(y=>y.textContent===r).classList.add("right"); SL(`sk2-w-${i+1}`); } else { st.lt=(st.lt||0)+1; save(); }
+    q.querySelector(".qs b").textContent=r; const f=q.querySelector(".fbx"); f.className="fbx "+(ok?"ok":"no"); f.innerHTML=(ok?"✓ Đúng! ":"✗ ")+w; }; q.querySelector(".opts").appendChild(b); });
+  document.getElementById("lt").appendChild(q); });
+
+/* ---------- PHẦN 3: viết đoạn văn ---------- */
+const van=document.getElementById("van");
+function ghep(){ const c=cacCau(); van.value=c.length?c.join(" "):""; st.van=van.value; save(); dem(); }
+document.getElementById("ghep").onclick=()=>{ if(van.value.trim()&&!confirm("Ghép lại sẽ thay đoạn văn em đang viết. Em chắc chưa?")) return; ghep(); };
+van.value=st.van||""; van.oninput=()=>{ st.van=van.value; save(); dem(); };
+const soTu=s=>(s.match(/[A-Za-z0-9'’-]+/g)||[]).length;
+function kiem(s){ const n=soTu(s), cs=s.split(/(?<=[.!?])\s+/).map(x=>x.trim()).filter(Boolean);
+  return {n, ck:[["40–50 từ",n>=40&&n<=50],["Có tên trường (My school is …)",/my school is/i.test(s)],["Có nơi chốn (It is in …)",/\bis in\b/i.test(s)],["Có số lớp (… classes)",/class(es)?\b/i.test(s)],
+    ["Có hoạt động của học sinh",/\bstudents?\b/i.test(s)],["Có điều em thích (I like …)",/\bI like\b/.test(s)],["Mỗi câu bắt đầu bằng chữ hoa",cs.length>0&&cs.every(x=>/^[A-Z0-9]/.test(x))],["Cuối đoạn có dấu chấm",/[.!?]\s*$/.test(s)]]}; }
+function dem(){ const s=van.value, k=kiem(s), d=document.getElementById("dem");
+  d.className="dem "+(k.n>=40&&k.n<=50?"ok":"no"); d.textContent=`Số từ: ${k.n} / 40–50`+(k.n<40?` – viết thêm ${40-k.n} từ nữa`:k.n>50?` – bớt ${k.n-50} từ`:" ✓");
+  document.getElementById("ck").innerHTML=k.ck.map(([t,ok])=>`<li class="${ok?"ok":""}">${t}</li>`).join(""); }
+dem();
+document.getElementById("xem").onclick=()=>{ const s=van.value.trim(), f=document.getElementById("gy"); if(!s){ showTip("Em viết đoạn văn trước nhé!"); return; }
+  const loi=[];
+  if(/\b(my school|it|she|he)\s+have\b/i.test(s)) loi.push("Trường là một → dùng <b>has</b>: <i>My school has…</i>, <i>It has…</i>");
+  if(/\bthere is\s+(many|a lot of|some|\d+|two|three|four|five|ten|twenty)\b/i.test(s)) loi.push("Nhiều thứ thì dùng <b>There are</b>: <i>There are many trees.</i>");
+  if(/\bI likes\b/i.test(s)) loi.push("<b>I like</b>, không thêm s.");
+  if(/\bstudents\s+(studies|plays|joins|reads|does|goes|learns|has)\b/i.test(s)) loi.push("<b>Students</b> là số nhiều → động từ không thêm s: <i>Students study / play…</i>");
+  if(/\bin\s+(ha noi|hanoi|bac ninh|ho chi minh city|da nang)\b/.test(s)) loi.push("Tên riêng viết hoa chữ cái đầu: <i>Ha Noi, Bac Ninh…</i>");
+  if(/\s,|,(?=\S)/.test(s)) loi.push("Sau dấu phẩy có một dấu cách, trước dấu phẩy không có dấu cách.");
+  if(/\bi\b/.test(s)) loi.push("Chữ <b>I</b> (tôi) luôn viết hoa.");
+  const k=kiem(s), thieu=k.ck.filter(x=>!x[1]).map(x=>x[0]);
+  st.diem=k.ck.filter(x=>x[1]).length; st.viet=1; save();
+  f.className="fb "+(loi.length||thieu.length?"no":"ok");
+  f.innerHTML = (loi.length||thieu.length) ? `<b>Cô góp ý:</b><br>`+loi.map(x=>"• "+x).join("<br>")+(thieu.length?`<br>• Em còn thiếu: ${thieu.join(", ")}.`:"")+"<br>Em sửa xong bấm <b>Cô xem giúp</b> lần nữa nhé."
+    : "🌟 Đoạn văn của em đủ ý, đúng độ dài, viết hoa và chấm câu đúng. Giỏi lắm! Em đọc to đoạn văn của mình nhé."; };
+document.getElementById("moMau").onclick=()=>{ document.getElementById("mauBox").classList.remove("hide"); const m=document.getElementById("mau");
+  if(!m.textContent){ m.textContent="My school is Hoa Sen Lower Secondary School. It is in Ha Noi. It has twenty classes. Students study many subjects, and they play sports at break time. There is a big library and a nice garden. I like my school because my teachers and friends are very kind."; BamTu.boc(m); } };
+document.getElementById("chep").onclick=()=>{ try{ navigator.clipboard.writeText(van.value); showTip("Đã chép đoạn văn – em dán vào vở hoặc tin nhắn gửi cô nhé!"); }catch(e){ van.select(); } };
+
+/* ---------- KẾT QUẢ ---------- */
+function drawSummary(){ const n=soTu(st.van||""), d=st.diem||0;
+  document.getElementById("total").textContent=Math.round(d/8*100)+" điểm";
+  document.getElementById("sum").innerHTML=`<div><span>2. Chuẩn bị ý – làm thử</span><b>${st.lt||0}/4</b></div><div><span>3. Đoạn văn của em</span><b>${n} từ · đạt ${d}/8 tiêu chí</b></div>
+   <div style="display:block"><span>Đoạn văn:</span><p style="margin:6px 0 0;font-style:italic">${(st.van||"(chưa viết)").replace(/</g,"&lt;")}</p></div>
+   <div><span>1. Nghe</span><b>Sắp có</b></div>`; }
+document.getElementById("restart").onclick=()=>{ st={done:{},tl:{}}; save(); location.reload(); };
+go(1);
+</script>
+</body>
+</html>
